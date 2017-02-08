@@ -54,6 +54,7 @@ wrap_file(FILE *fp, struct options_t options)
     printf("Line length: %u\n", options.line_length);
     printf("Stops: %u\n", options.stops);
     printf("Always hyphenate: %s\n", options.always_hyphenate ? "Yes" : "No" );
+    printf("FP : %p\n", fp);
   }
 
   done = 1;

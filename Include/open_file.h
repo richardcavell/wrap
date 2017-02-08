@@ -7,6 +7,6 @@
 
 #include "options.h"
 
-void open_file(const char *fn, struct options_t options);
+extern void open_file(const char *fn, struct options_t options);
 
 #endif

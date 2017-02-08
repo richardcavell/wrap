@@ -17,6 +17,7 @@ struct options_t
   int always_hyphenate;
 };
 
-const struct options_t default_options;    /* options.c */
+extern const char hyphen;                                     /* options.c */
+extern struct options_t get_options(int argc, char *argv[]);  /* options.c */
 
 #endif

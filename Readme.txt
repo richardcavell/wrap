@@ -1,7 +1,7 @@
                 Wrap
                 ----
 
-Version 1.0 (January 2017)
+Version 1.0 (January 2017).
 
 A word-wrapping program written by Richard Cavell.
 
@@ -11,5 +11,5 @@ tab, vertical tab, carriage return, and unprintable
 characters.  It also handles extremely long lines.
 
 To build, type "make".  To run, run the "wrap"
-program in the top-level directory.  For options,
-run the program with the option --help.
+program in the top-level directory.  To see the
+options, run the program with the option --help.
