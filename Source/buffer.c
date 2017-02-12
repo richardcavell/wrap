@@ -6,6 +6,7 @@
 #include <stdlib.h>
 
 #include "buffer.h"
+#include "error.h"
 #include "options.h"
 
 static ch_type *text;
@@ -19,11 +20,8 @@ get_buffer(const struct options_type *options)
   text = buffer.text;
 
   if (buffer.text == NULL)
-  {
-    fprintf(stderr, "Error: Couldn't acquire %lu bytes for the buffer\n",
-            (unsigned long int) options->buffer_size);
-    exit(EXIT_FAILURE);
-  }
+    fail_msg("Error: Couldn't acquire %lu bytes for the buffer\n",
+             (unsigned long int) options->buffer_size);
 
   buffer.buffer_size = options->buffer_size;
   buffer.bufpos = 0;

@@ -7,6 +7,7 @@
 
 #include "buffer.h"
 #include "config.h"
+#include "error.h"
 #include "open_file.h"
 #include "options.h"
 
@@ -23,10 +24,7 @@ main(int argc, char *argv[])
 
       /* buffer.h */              /* openfile.h */
   if (register_free_buffer() || register_close_file())
-  {
-    fprintf(stderr, "Error: Couldn't register atexit function\n");
-    return EXIT_FAILURE;
-  }
+    fail_msg("Error: Couldn't register atexit function\n");
 
   if (options.file_parameters)
   {

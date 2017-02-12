@@ -26,6 +26,10 @@ open_file(const char *fn, struct buffer_type *buffer,
   {
     fprintf(stderr, "Error: Couldn't open file %s. Error code: %d\n",
             fn, errno);
+
+    /* The program continues but will eventually
+       exit with EXIT_FAILURE */
+
     return EXIT_FAILURE;
   }
 
@@ -51,6 +55,9 @@ xclose_file(const char *fn)
               fn ? " " : "",
               fn ? fn : "",
               errno);
+
+      /* The program continues but will eventually
+         exit with EXIT_FAILURE */
 
       return EXIT_FAILURE;
     }

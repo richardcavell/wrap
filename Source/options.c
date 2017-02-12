@@ -9,6 +9,7 @@
 #include <assert.h>
 
 #include "config.h"
+#include "error.h"
 #include "options.h"
 
 static const struct options_type default_options =
@@ -108,10 +109,7 @@ get_options(int argc, char *argv[])
     }
 
     if (!matched)
-    {
-      fprintf(stderr, "Error: Parameter not understood: %s\n", *argv);
-      exit(EXIT_FAILURE);
-    }
+      fail_msg("Error: Parameter not understood: %s\n", *argv);
   }
 
   return options;
@@ -181,15 +179,15 @@ print_help(const char *param_match, const char *param_remainder,
 
   check_param_finished(param_match, param_remainder);
 
-    puts("Wrap v1.0 by Richard Cavell");
-  printf("Usage: %s [options] [filenames]\n", options->invocation);
-    puts("Options:");
+  xprintf("Wrap v1.0 by Richard Cavell");
+  xprintf("Usage: %s [options] [filenames]\n", options->invocation);
+  xprintf("Options:");
 
   for (;param->s; ++param)
   {
     const char *ht = (param->help_text) ?
                       param->help_text : VOID_TEXT;
-    printf("  %-20s      %-40s\n", param->s, ht);
+    xprintf("  %-20s      %-40s\n", param->s, ht);
   }
 
   exit(EXIT_SUCCESS);
@@ -206,18 +204,12 @@ get_ui(const char *param_remainder, const char *param_match,
   assert(max < LONG_MAX);
 
   if (endptr && *endptr)
-  {
-    fprintf(stderr, "Error: Value given to %s must be a number\n",
-                     param_match);
-    exit(EXIT_FAILURE);
-  }
+    fail_msg("Error: Value given to %s must be a number\n",
+                                    param_match);
 
   if (l < min || l > max)
-  {
-    fprintf(stderr, "Error: Value to %s must be between %u and %u\n",
-            param_match, min, max);
-    exit(EXIT_FAILURE);
-  }
+    fail_msg("Error: Value to %s must be between %u and %u\n",
+                              param_match, min, max);
 
   return (unsigned int) l;
 }
@@ -226,10 +218,7 @@ static void
 check_param_finished(const char *param_match, const char *param_remainder)
 {
   if (*param_remainder)
-  {
-    fprintf(stderr,
-            "Error: Parameter %s should not be followed by any other text\n",
-            param_match);
-    exit(EXIT_FAILURE);
-  }
+    fail_msg(
+      "Error: Parameter %s should not be followed by any other text\n",
+                        param_match);
 }
