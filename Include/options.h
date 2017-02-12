@@ -1,5 +1,5 @@
 /* wrap by Richard Cavell v1.0 */
-/* January 2017 */
+/* January-February 2017 */
 /* options.h */
 
 #ifndef OPTIONS_H
@@ -7,17 +7,18 @@
 
 #include <stddef.h>
 
-struct options_t
+struct options_type
 {
   const char *invocation;
-  int files;
+  int file_parameters;
   size_t buffer_size;
   unsigned int line_length;
   unsigned int stops;
   int always_hyphenate;
 };
 
-extern const char hyphen;                                     /* options.c */
-extern struct options_t get_options(int argc, char *argv[]);  /* options.c */
+extern int is_file(const char *arg);                 /* options.c */
+extern struct options_type
+       get_options(int argc, char *argv[]);          /* options.c */
 
 #endif

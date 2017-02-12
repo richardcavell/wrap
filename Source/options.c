@@ -1,5 +1,5 @@
 /* wrap by Richard Cavell v1.0 */
-/* January 2017 */
+/* January-February 2017 */
 /* options.c */
 
 #include <stdio.h>
@@ -11,94 +11,89 @@
 #include "config.h"
 #include "options.h"
 
-const char hyphen = '-';
-
-static const struct options_t default_options =
+static const struct options_type default_options =
 {
-  NULL,    /* invocation */
-  0,       /* files */
+  DEFAULT_INVOCATION,
+  0,       /* file_parameters */
   DEFAULT_BUFFER_SIZE,         /* config.h */
   DEFAULT_LINE_LENGTH,         /* config.h */
   DEFAULT_STOPS,               /* config.h */
   DEFAULT_ALWAYS_HYPHENATE     /* config.h */
 };
 
-static struct options_t
-option_always_hyphenate(const char *actual_arg, const char *param_match,
-                        const char *param_remainder,
-                        struct options_t options);
+static void
+option_always_hyphenate(const char *param_match, const char *param_remainder,
+                        struct options_type *options);
 
-static struct options_t
-option_line_break(const char *actual_arg, const char *param_match,
-                  const char *param_remainder,
-                  struct options_t options);
+static void
+option_line_break(const char *param_match, const char *param_remainder,
+                  struct options_type *options);
 
-static struct options_t
-option_buffer(const char *actual_arg, const char *param_match,
-              const char *param_remainder,
-              struct options_t options);
+static void
+option_buffer(const char *param_match, const char *param_remainder,
+              struct options_type *options);
 
-static struct options_t
-option_length(const char *actual_arg, const char *param_match,
-              const char *param_remainder,
-              struct options_t options);
+static void
+option_length(const char *param_match, const char *param_remainder,
+              struct options_type *options);
 
-static struct options_t
-option_stops(const char *actual_arg, const char *param_match,
-             const char *param_remainder,
-             struct options_t options);
+static void
+option_stops(const char *param_match, const char *param_remainder,
+             struct options_type *options);
 
-static struct options_t
-print_help(const char *actual_arg, const char *param_match,
-           const char *param_remainder,
-           struct options_t options);
+static void
+print_help(const char *param_match, const char *param_remainder,
+           struct options_type *options);
 
-struct parameter_t
+int is_file(const char *arg);
+
+struct parameter_type
 {
   const char *s;
   const char *help_text;
-  struct options_t (*fn)(const char *actual_arg, const char *param_match,
-                         const char *param_remainder,
-                         struct options_t options);
+  void (*fn)(const char *param_match, const char *param_remainder,
+             struct options_type *options);
 };
 
-static const struct parameter_t parameters[] =
+static const struct parameter_type parameters[] =
 {
+  { "-a",                 NULL,                     option_always_hyphenate } ,
   { "--always-hyphenate", "Hyphenate instead of line-break",
                                                     option_always_hyphenate } ,
-  { "-a",                 NULL,                     option_always_hyphenate } ,
-  { "--line-break",       "Line-break where possible",    option_line_break } ,
   { "-k",                 NULL,                           option_line_break } ,
-  { "--buffer=",          "Buffer size",                  option_buffer } ,
+  { "--line-break",       "Line-break where possible",    option_line_break } ,
   { "-b=",                NULL,                           option_buffer } ,
-  { "--length=",          "Line length",                  option_length } ,
+  { "--buffer=",          "Buffer size",                  option_buffer } ,
   { "-l=",                NULL,                           option_length } ,
-  { "--stops=",           "Tab stop distance",            option_stops } ,
+  { "--length=",          "Line length",                  option_length } ,
   { "-s=",                NULL,                           option_stops } ,
-  { "--help",             "Prints out this help text",    print_help } ,
+  { "--stops=",           "Tab stop distance",            option_stops } ,
   { "-h",                 NULL,                           print_help } ,
+  { "--help",             "Prints out this help text",    print_help } ,
   { NULL,                 NULL,                           NULL }
 };
 
-struct options_t
+struct options_type
 get_options(int argc, char *argv[])
 {
-  struct options_t options = default_options;
+  struct options_type options = default_options;
 
-  options.invocation = argv[0];
-  options.files = 0;
+  if (argv[0])
+    options.invocation = argv[0];
+
+  options.file_parameters = 0;
 
   if (argc < 2)
     return options;
 
   while (*++argv)
   {
-    const struct parameter_t *param = parameters;
+    const struct parameter_type *param = parameters;
     int matched = 0;
 
-    if (**argv != hyphen)
+    if (is_file(*argv))
     {
-      options.files = 1;
+      options.file_parameters = 1;
       continue;
     }
 
@@ -107,9 +102,8 @@ get_options(int argc, char *argv[])
       if (strncmp(param->s, *argv, strlen(param->s)) == 0)
       {
         matched = 1;
-        options = param->fn(*argv, param->s,
-                            *argv + strlen(param->s),
-                            options);
+        param->fn(param->s, *argv + strlen(param->s),
+                  &options);
       }
     }
 
@@ -123,86 +117,78 @@ get_options(int argc, char *argv[])
   return options;
 }
 
+int
+is_file(const char *arg)
+{
+  const char hyphen = '-';
+  return (arg[0] != hyphen);
+}
+
 static unsigned int get_ui(const char *param_remainder,
                            const char *param_match,
                            unsigned int min, unsigned int max);
 
-static struct options_t
-option_length(const char *actual_arg, const char *param_match,
-              const char *param_remainder,
-              struct options_t options)
+static void
+option_length(const char *param_match, const char *param_remainder,
+              struct options_type *options)
 {
-  options.line_length = get_ui(param_remainder, param_match,
+  options->line_length = get_ui(param_remainder, param_match,
                                LENGTH_MIN, LENGTH_MAX);
-
-  (void) actual_arg; /* Suppress compiler warning about unused parameter */
-
-  return options;
 }
 
-static struct options_t
-option_stops(const char *actual_arg, const char *param_match,
-             const char *param_remainder,
-             struct options_t options)
+static void
+option_stops(const char *param_match, const char *param_remainder,
+             struct options_type *options)
 {
-  options.stops = get_ui(param_remainder, param_match,
+  options->stops = get_ui(param_remainder, param_match,
                          STOPS_MIN, STOPS_MAX);
-  return options;
 }
 
 static void check_param_finished(const char *param_match,
                                  const char *param_remainder);
 
-static struct options_t
-option_always_hyphenate(const char *actual_arg, const char *param_match,
+static void
+option_always_hyphenate(const char *param_match,
                         const char *param_remainder,
-                        struct options_t options)
+                        struct options_type *options)
 {
   check_param_finished(param_match, param_remainder);
-  options.always_hyphenate = 1;
-  return options;
+  options->always_hyphenate = 1;
 }
 
-static struct options_t
-option_line_break(const char *actual_arg, const char *param_match,
-                  const char *param_remainder,
-                  struct options_t options)
+static void
+option_line_break(const char *param_match, const char *param_remainder,
+                  struct options_type *options)
 {
   check_param_finished(param_match, param_remainder);
-  options.always_hyphenate = 0;
-  return options;
+  options->always_hyphenate = 0;
 }
 
-static struct options_t
-option_buffer(const char *actual_arg, const char *param_match,
-                        const char *param_remainder,
-                        struct options_t options)
+static void
+option_buffer(const char *param_match, const char *param_remainder,
+              struct options_type *options)
 {
   assert(BUFFER_MAX <= UINT_MAX);
-  options.buffer_size = get_ui(param_remainder, param_match,
+  options->buffer_size = get_ui(param_remainder, param_match,
                                BUFFER_MIN, BUFFER_MAX);
-  return options;
 }
 
-static struct options_t
-print_help(const char *actual_arg, const char *param_match,
-           const char *param_remainder,
-           struct options_t options)
+static void
+print_help(const char *param_match, const char *param_remainder,
+           struct options_type *options)
 {
-  const struct parameter_t *param = parameters;
-  const char *ht = "";
+  const struct parameter_type *param = parameters;
 
   check_param_finished(param_match, param_remainder);
 
-  puts("Wrap v1.0 by Richard Cavell");
-  printf("Usage: %s [options] [filenames]\n",
-          options.invocation ? options.invocation : DEFAULT_INVOCATION);
-  puts("Options:");
+    puts("Wrap v1.0 by Richard Cavell");
+  printf("Usage: %s [options] [filenames]\n", options->invocation);
+    puts("Options:");
 
   for (;param->s; ++param)
   {
-    ht = (param->help_text || strcmp(ht, "") == 0) ?
-          param->help_text : SAME_PARAM_TEXT;
+    const char *ht = (param->help_text) ?
+                      param->help_text : VOID_TEXT;
     printf("  %-20s      %-40s\n", param->s, ht);
   }
 

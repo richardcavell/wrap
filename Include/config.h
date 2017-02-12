@@ -1,9 +1,11 @@
 /* wrap by Richard Cavell v1.0 */
-/* January 2017 */
+/* January-February 2017 */
 /* config.h */
 
 #ifndef CONFIG_H
 #define CONFIG_H
+
+#include <limits.h>
 
   /* User-modifiable values */
 #define BUFFER_MIN 100
@@ -18,12 +20,12 @@
 #define DEFAULT_STOPS 8
 #define STOPS_MAX 100
 
-#define SAME_PARAM_TEXT "  ...same as above"
+#define VOID_TEXT "  ..."
 
 #define DEFAULT_INVOCATION "wrap"
 #define DEFAULT_ALWAYS_HYPHENATE 0
 
-typedef char ch_t;
+typedef char ch_type;
   /* End of user-modifiable values */
 
 #endif
