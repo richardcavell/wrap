@@ -10,8 +10,6 @@
 #include "open_file.h"
 #include "options.h"
 
-void free_buffer();
-
 int
 main(int argc, char *argv[])
 {

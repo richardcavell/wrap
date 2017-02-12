@@ -8,7 +8,7 @@ vpath %.o Object
 
 CPPFLAGS = -I Include -std=c89 -Wall -Werror -pedantic -Wextra
 
-wrap: main.o buffer.o open_file.o options.o
+wrap: main.o buffer.o error.o open_file.o options.o
 	@echo "Linking..."
 	@$(LINK.c) $^ $(OUTPUT_OPTION)
 	@echo "Built:" $(@F)
@@ -19,6 +19,10 @@ Object/main.o: main.c
 	@$(COMPILE.c) $< $(OUTPUT_OPTION)
 
 Object/buffer.o: buffer.c buffer.h config.h
+	@echo "Building" $(@F)"..."
+	@$(COMPILE.c) $< $(OUTPUT_OPTION)
+
+Object/error.o: error.c error.h
 	@echo "Building" $(@F)"..."
 	@$(COMPILE.c) $< $(OUTPUT_OPTION)
 
@@ -33,6 +37,6 @@ Object/options.o: options.c options.h config.h
 .PHONY: clean
 
 clean:
-	@rm -f wrap Object/main.o Object/open_file.o Object/options.o\
- Object/buffer.o
+	@rm -f wrap Object/main.o Object/buffer.o Object/error.o \
+Object/open_file.o Object/options.o
 	@echo "All intermediate files have been deleted."
