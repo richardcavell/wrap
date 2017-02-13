@@ -17,7 +17,7 @@ main(int argc, char *argv[])
   int exit_failure = 0;
 
   const struct options_type options
-    = get_options(argc, argv);           /*  options.h  */
+    = get_options(argc, argv);           /* options.h */
 
   struct buffer_type buffer
     = get_buffer(&options);              /* buffer.h */
@@ -38,7 +38,7 @@ main(int argc, char *argv[])
         == EXIT_FAILURE)
       exit_failure = 1;
 
-  /* free_buffer() and close_file() will be called at exit */
+  /* free_buffer() will be called at exit */
 
   return exit_failure ? EXIT_FAILURE : EXIT_SUCCESS;
 }

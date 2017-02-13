@@ -13,9 +13,11 @@ struct buffer_type
   ch_type *text;
   size_t buffer_size;
   unsigned int bufpos;
+  unsigned int endpos;
+  int empty;
 };
 
-struct buffer_type get_buffer(const struct options_type *options);
-int register_free_buffer(void);
+extern struct buffer_type get_buffer(const struct options_type *options);
+extern int register_free_buffer(void);
 
 #endif

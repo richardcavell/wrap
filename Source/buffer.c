@@ -25,6 +25,8 @@ get_buffer(const struct options_type *options)
 
   buffer.buffer_size = options->buffer_size;
   buffer.bufpos = 0;
+  buffer.endpos = 0;
+  buffer.empty = 1;
 
   return buffer;
 }

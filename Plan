@@ -11,7 +11,7 @@ DONE 10. Failing to open/close a file should not normally cause a program to exi
 DONE 11. Change #define of chars to const chars
 DONE 12. Change **argv != hyphen to is_option()
 DONE 13. Update the date of source code files
-WONTDO 14. Change #defines to const ints
+NOTSUREABOUTTHIS 14. Change #defines to const ints
 DONE 15. Remove actual_arg from parameter lists
 DONE 16. Add -Wextra to CPPFLAGS
 DONE 17. Create buffer info struct, file info struct
@@ -19,4 +19,5 @@ DONE 18. Rename struct _t (reserved name)
 19. Make help text so that all options are on the same line
 20. Convert Makefile so that it uses pattern rules
 21. Add const where possible.
-22. Check the result of printf()
+DONE 22. Check the result of printf()
+23. Rename config.h to something else
