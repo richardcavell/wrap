@@ -1,23 +1,30 @@
-DONE 1. Most of the option parsing code should be moved to options.c
-DONE 2. options_t is the kind of size where you should be passing around pointers, rather than always passing by value.
-NOTSUREABOUTTHIS 3. Consider using getopt to do the grunt work.
-DONE 4. You re-declare open_file(const char *fn, struct options_t options); inside main.
-DONE 5. Your default options invocation should be DEFAULT_INVOCATION and not NULL.
-DONE 6. In options_t, the member 'int files' is far too non-descriptive.
-DONE 7. You have a buffer size in options_t, but no buffer pointer (though you do allocate a buffer in open_file()
-DONE 8. if ( buffer ) guarding free(buffer) is a waste, since free(NULL) is a safe operation to begin with.
-DONE 9. Operand reversal is so 1980's - EOF == fclose(fp). See Question 17.4
-DONE 10. Failing to open/close a file should not normally cause a program to exit.
-DONE 11. Change #define of chars to const chars
-DONE 12. Change **argv != hyphen to is_option()
-DONE 13. Update the date of source code files
-NOTSUREABOUTTHIS 14. Change #defines to const ints
-DONE 15. Remove actual_arg from parameter lists
-DONE 16. Add -Wextra to CPPFLAGS
-DONE 17. Create buffer info struct, file info struct
-DONE 18. Rename struct _t (reserved name)
-19. Make help text so that all options are on the same line
-20. Convert Makefile so that it uses pattern rules
-21. Add const where possible.
-DONE 22. Check the result of printf()
-23. Rename config.h to something else
+== To do ==
+Add const where possible
+
+
+== Considering ==
+Consider using getopt to do the grunt work
+Change #defines to const ints
+Make help text so that all options are on the same line
+Rename config.h to something else
+
+
+== Done ==
+Most of the option parsing code should be moved to options.c
+options_t is the kind of size where you should be passing around pointers, rather than always passing by value.
+You re-declare open_file(const char *fn, struct options_t options); inside main.
+Your default options invocation should be DEFAULT_INVOCATION and not NULL.
+In options_t, the member 'int files' is far too non-descriptive.
+You have a buffer size in options_t, but no buffer pointer (though you do allocate a buffer in open_file()
+if ( buffer ) guarding free(buffer) is a waste, since free(NULL) is a safe operation to begin with.
+Operand reversal is so 1980's - EOF == fclose(fp). See Question 17.4
+Failing to open/close a file should not normally cause a program to exit.
+Change #define of chars to const chars
+Change **argv != hyphen to is_option()
+Update the date of source code files
+Remove actual_arg from parameter lists
+Add -Wextra to CPPFLAGS
+Create buffer info struct, file info struct
+Rename struct _t (reserved name)
+Convert Makefile so that it uses pattern rules
+Check the result of printf()
