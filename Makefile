@@ -25,7 +25,7 @@ Object/error.o: error.c error.h
 Object/open_file.o: open_file.c open_file.h options.h
 Object/options.o: options.c options.h config.h error.h
 
-.PHONY: all buildmsg clean cookie
+.PHONY: all buildmsg clean
 
 buildmsg:
 	@echo "Wrap v1.0 by Richard Cavell"

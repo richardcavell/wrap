@@ -1,6 +1,6 @@
 DONE 1. Most of the option parsing code should be moved to options.c
 DONE 2. options_t is the kind of size where you should be passing around pointers, rather than always passing by value.
-3. Consider using getopt to do the grunt work.
+NOTSUREABOUTTHIS 3. Consider using getopt to do the grunt work.
 DONE 4. You re-declare open_file(const char *fn, struct options_t options); inside main.
 DONE 5. Your default options invocation should be DEFAULT_INVOCATION and not NULL.
 DONE 6. In options_t, the member 'int files' is far too non-descriptive.
