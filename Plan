@@ -15,6 +15,7 @@ options_t is the kind of size where you should be passing around pointers, rathe
 You re-declare open_file(const char *fn, struct options_t options); inside main.
 Your default options invocation should be DEFAULT_INVOCATION and not NULL.
 In options_t, the member 'int files' is far too non-descriptive.
+-
 You have a buffer size in options_t, but no buffer pointer (though you do allocate a buffer in open_file()
 if ( buffer ) guarding free(buffer) is a waste, since free(NULL) is a safe operation to begin with.
 Operand reversal is so 1980's - EOF == fclose(fp). See Question 17.4
