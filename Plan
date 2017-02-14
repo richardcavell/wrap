@@ -1,6 +1,6 @@
 == To do ==
 Add const where possible
-
+Rename VOID_TEXT
 
 == Considering ==
 Consider using getopt to do the grunt work

@@ -14,13 +14,15 @@
 
 static const struct options_type default_options =
 {
-  DEFAULT_INVOCATION,
+  DEFAULT_INVOCATION,          /* config.h */
   0,       /* file_parameters */
   DEFAULT_BUFFER_SIZE,         /* config.h */
   DEFAULT_LINE_LENGTH,         /* config.h */
   DEFAULT_STOPS,               /* config.h */
   DEFAULT_ALWAYS_HYPHENATE     /* config.h */
 };
+
+int is_file(const char *arg);
 
 static void
 option_always_hyphenate(const char *param_match, const char *param_remainder,
@@ -45,8 +47,6 @@ option_stops(const char *param_match, const char *param_remainder,
 static void
 print_help(const char *param_match, const char *param_remainder,
            struct options_type *options);
-
-int is_file(const char *arg);
 
 struct parameter_type
 {
