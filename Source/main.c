@@ -28,13 +28,13 @@ main(int argc, char *argv[])
 
   if (options.file_parameters)
   {
-    while (*++argv)    /*  options.h  */
-      if (is_file(*argv) && open_file(*argv, &buffer, &options)
-                            == EXIT_FAILURE)
-        exit_failure = 1;
+    while (*++argv)
+      if (is_file(*argv))    /*  options.h  */
+        if (open_file(*argv, &buffer, &options) == EXIT_FAILURE)
+          exit_failure = 1;
   }
   else
-    if (open_file(NULL, &buffer, &options)  /* open_file.h */
+    if (open_file(NULL, &buffer, &options)    /* open_file.h */
         == EXIT_FAILURE)
       exit_failure = 1;
 

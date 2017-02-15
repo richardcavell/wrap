@@ -18,8 +18,8 @@ In options_t, the member 'int files' is far too non-descriptive.
 You have a buffer size in options_t, but no buffer pointer (though you do allocate a buffer in open_file()
 if ( buffer ) guarding free(buffer) is a waste, since free(NULL) is a safe operation to begin with.
 Operand reversal is so 1980's - EOF == fclose(fp). See Question 17.4
--
 Failing to open/close a file should not normally cause a program to exit.
+-
 Change #define of chars to const chars
 Change **argv != hyphen to is_option()
 Update the date of source code files
