@@ -119,7 +119,7 @@ int
 is_file(const char *arg)
 {
   const char hyphen = '-';
-  return (arg[0] != hyphen);
+  return (arg[0] == hyphen) ? 0 : 1;
 }
 
 static unsigned int get_ui(const char *param_remainder,

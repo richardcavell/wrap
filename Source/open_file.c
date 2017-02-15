@@ -89,7 +89,7 @@ wrap_file(FILE *fp, struct buffer_type *buffer,
     printf("Invocation: %s\n", options->invocation);
     printf("File parameters: %s\n",
             options->file_parameters ? "Yes" : "No" );
-    printf("Buffer : %p\n", buffer);
+    printf("Buffer text: %p\n", buffer->text);
     printf("Buffer size: %lu\n", options->buffer_size);
     printf("Line length: %u\n", options->line_length);
     printf("Stops: %u\n", options->stops);
