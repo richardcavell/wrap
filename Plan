@@ -4,13 +4,14 @@
 
 == To do ==
 Add const where possible
+Get comments on my makefile
+Get comments on my script
 
 == Considering ==
 Consider using getopt to do the grunt work
 Change #defines to const ints
 Make help text so that all options are on the same line
 Rename config.h to something else
-
 
 == Done ==
 Most of the option parsing code should be moved to options.c
