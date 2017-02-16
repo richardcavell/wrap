@@ -186,7 +186,7 @@ print_help(const char *param_match, const char *param_remainder,
   for (;param->s; ++param)
   {
     const char *ht = (param->help_text) ?
-                      param->help_text : VOID_TEXT;
+                      param->help_text : HELP_TEXT_VOID;
     xprintf("  %-20s      %-40s\n", param->s, ht);
   }
 

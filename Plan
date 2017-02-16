@@ -1,6 +1,5 @@
 == To do ==
 Add const where possible
-Rename VOID_TEXT
 
 == Considering ==
 Consider using getopt to do the grunt work
@@ -29,3 +28,4 @@ Create buffer info struct, file info struct
 Rename struct _t (reserved name)
 Convert Makefile so that it uses pattern rules
 Check the result of printf()
+Rename VOID_TEXT
