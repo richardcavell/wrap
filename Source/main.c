@@ -30,8 +30,11 @@ main(int argc, char *argv[])
   {
     while (*++argv)
       if (is_file(*argv))    /*  options.h  */
+      {
+            /* open_file.h */
         if (open_file(*argv, &buffer, &options) == EXIT_FAILURE)
           exit_failure = 1;
+      }
   }
   else
     if (open_file(NULL, &buffer, &options)    /* open_file.h */
