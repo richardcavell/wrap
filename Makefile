@@ -15,9 +15,9 @@ CPPFLAGS = -I Include -std=c89 -Wall -Werror -pedantic -Wextra
 all: wrap
 
 wrap: main.o buffer.o error.o open_file.o options.o
-	@echo "Linking..."
+	@echo "Linking  "$(@F)"..."
 	@$(LINK.c) $^ $(OUTPUT_OPTION)
-	@echo "Built:" $(@F)
+	@echo "Executable" '"'$(@F)'"' "has been built."
 
 Object/main.o: main.c buffer.h config.h error.h open_file.h options.h
 Object/buffer.o: buffer.c buffer.h config.h error.h options.h
