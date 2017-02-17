@@ -6,6 +6,7 @@
 Add const where possible
 Get comments on my makefile
 Get comments on my script
+Get comments on my code
 
 == Considering ==
 Consider using getopt to do the grunt work
