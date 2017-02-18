@@ -179,9 +179,9 @@ print_help(const char *param_match, const char *param_remainder,
 
   check_param_finished(param_match, param_remainder);
 
-  xprintf("Wrap v1.0 by Richard Cavell");
+  xprintf("Wrap v1.0 by Richard Cavell\n");
   xprintf("Usage: %s [options] [filenames]\n", options->invocation);
-  xprintf("Options:");
+  xprintf("Options:\n");
 
   for (;param->s; ++param)
   {
