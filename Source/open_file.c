@@ -7,6 +7,7 @@
 #include <errno.h>
 
 #include "config.h"
+#include "error.h"
 #include "open_file.h"
 #include "options.h"
 
@@ -24,8 +25,7 @@ open_file(const char *fn, struct buffer_type *buffer,
 
   if (!fp)
   {
-    fprintf(stderr, "Error: Couldn't open file %s. Error code: %d\n",
-            fn, errno);
+    xerror("Error: Couldn't open file %s. Error code: %d\n", fn, errno);
 
     /* The program continues but will eventually
        exit with EXIT_FAILURE */
@@ -51,7 +51,7 @@ xclose_file(const char *fn)
 
     if (close_code == EOF)
     {
-      fprintf(stderr, "Error: Couldn't close file%s%s. Error code: %d\n",
+      xerror( "Error: Couldn't close file%s%s. Error code: %d\n",
               fn ? " " : "",
               fn ? fn : "",
               errno);

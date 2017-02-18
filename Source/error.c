@@ -8,19 +8,41 @@
 
 #include "error.h"
 
+static void xfprintf(FILE *stream, const char *s, va_list ap);
+
 void
 xprintf(const char *s, ...)
 {
-  int return_code;
   va_list ap;
 
   va_start(ap, s);
-  return_code = vprintf(s, ap);
+  xfprintf(stdout, s, ap);
   va_end(ap);
+}
 
-  if (return_code < 0)
+void
+xerror(const char *s, ...)
+{
+  va_list ap;
+
+  va_start(ap, s);
+  xfprintf(stderr, s, ap);
+  va_end(ap);
+}
+
+static void
+xfprintf(FILE *stream, const char *s, va_list ap)
+{
+  if (vfprintf(stream, s, ap) < 0)
   {
-    fprintf(stderr, "Unable to print to standard output\n");
+    const char *stream_name;
+
+         if (stream == stdout) stream_name = "standard output";
+    else if (stream == stderr) stream_name = "standard error";
+    else                       stream_name = "stream";
+
+    (void) fprintf(stderr, "Unable to print to %s\n", stream_name);
+
     exit(EXIT_FAILURE);
   }
 }
