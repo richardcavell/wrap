@@ -86,16 +86,16 @@ wrap_file(FILE *fp, struct buffer_type *buffer,
 
   if (!done)
   {
-    printf("Invocation: %s\n", options->invocation);
-    printf("File parameters: %s\n",
+    xprintf("Invocation: %s\n", options->invocation);
+    xprintf("File parameters: %s\n",
             options->file_parameters ? "Yes" : "No" );
-    printf("Buffer text: %p\n", buffer->text);
-    printf("Buffer size: %lu\n", options->buffer_size);
-    printf("Line length: %u\n", options->line_length);
-    printf("Stops: %u\n", options->stops);
-    printf("Always hyphenate: %s\n",
+    xprintf("Buffer text: %p\n", buffer->text);
+    xprintf("Buffer size: %lu\n", options->buffer_size);
+    xprintf("Line length: %u\n", options->line_length);
+    xprintf("Stops: %u\n", options->stops);
+    xprintf("Always hyphenate: %s\n",
            options->always_hyphenate ? "Yes" : "No" );
-    printf("FP : %p\n", fp);
+    xprintf("FP : %p\n", fp);
   }
 
   done = 1;
