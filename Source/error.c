@@ -8,7 +8,8 @@
 
 #include "error.h"
 
-static void xfprintf(FILE *stream, const char *s, va_list ap);
+static void xfprintf(FILE *stream, const char *s,
+                     va_list ap, const char *stream_name);
 
 void
 xprintf(const char *s, ...)
@@ -16,7 +17,7 @@ xprintf(const char *s, ...)
   va_list ap;
 
   va_start(ap, s);
-  xfprintf(stdout, s, ap);
+  xfprintf(stdout, s, ap, "standard output");
   va_end(ap);
 }
 
@@ -26,23 +27,16 @@ xerror(const char *s, ...)
   va_list ap;
 
   va_start(ap, s);
-  xfprintf(stderr, s, ap);
+  xfprintf(stderr, s, ap, "standard error");
   va_end(ap);
 }
 
 static void
-xfprintf(FILE *stream, const char *s, va_list ap)
+xfprintf(FILE *stream, const char *s, va_list ap, const char *stream_name)
 {
   if (vfprintf(stream, s, ap) < 0)
   {
-    const char *stream_name;
-
-         if (stream == stdout) stream_name = "standard output";
-    else if (stream == stderr) stream_name = "standard error";
-    else                       stream_name = "stream";
-
     (void) fprintf(stderr, "Unable to print to %s\n", stream_name);
-
     exit(EXIT_FAILURE);
   }
 }
