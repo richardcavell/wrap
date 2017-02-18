@@ -29,9 +29,9 @@ Change **argv != hyphen to is_option()
 Update the date of source code files
 Remove actual_arg from parameter lists
 Add -Wextra to CPPFLAGS
--
 Create buffer info struct, file info struct
 Rename struct _t (reserved name)
+-
 Convert Makefile so that it uses pattern rules
 Check the result of printf()
 Rename VOID_TEXT

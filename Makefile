@@ -6,6 +6,7 @@ vpath %.c Source
 vpath %.h Include
 vpath %.o Object
 
+# flag -Weverything gives a useless warning about padding in structs
 CPPFLAGS = -I Include -std=c89 -Wall -Werror -pedantic -Wextra
 
 %.o:
