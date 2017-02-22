@@ -1,4 +1,3 @@
-/* wrap by Richard Cavell v1.0 */
 /* January-February 2017 */
 /* error.c */
 

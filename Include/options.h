@@ -19,6 +19,6 @@ struct options_type
 
 extern int is_file(const char *arg);
 extern struct options_type
-       get_options(int argc, char *argv[]);
+  get_options(int argc, char *argv[]);
 
 #endif
