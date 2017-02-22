@@ -56,8 +56,10 @@ xclose_file(const char *fn)
               fn ? fn : "",
               errno);
 
-      /* The program continues but will eventually
-         exit with EXIT_FAILURE */
+      /* If being called under normal conditions, the program continues
+         but will eventually exit with EXIT_FAILURE.
+
+         If being called by exit(), the program is failing. */
 
       return EXIT_FAILURE;
     }
