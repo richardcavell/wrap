@@ -7,7 +7,7 @@ vpath %.h Include
 vpath %.o Object
 
 # flag -Weverything gives a useless warning about padding in structs
-CPPFLAGS = -I Include -std=c89 -Wall -Werror -pedantic -Wextra
+CPPFLAGS = -I Include -std=c89 -Wall -Werror -Wextra -pedantic
 
 # All object files are built using this command list
 %.o:
@@ -21,7 +21,7 @@ wrap: main.o buffer.o error.o open_file.o options.o
 	@$(LINK.c) $^ $(OUTPUT_OPTION)
 	@echo "Executable" '"'$(@F)'"' "has been built."
 
-Object/main.o:       main.c buffer.h config.h error.h open_file.h options.h
+Object/main.o:       main.c buffer.h error.h open_file.h options.h
 Object/buffer.o:     buffer.c buffer.h error.h options.h
 Object/error.o:      error.c error.h
 Object/open_file.o:  open_file.c open_file.h error.h options.h

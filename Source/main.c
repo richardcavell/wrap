@@ -2,11 +2,9 @@
 /* January-February 2017 */
 /* main.c */
 
-#include <stdio.h>
 #include <stdlib.h>
 
 #include "buffer.h"
-#include "config.h"
 #include "error.h"
 #include "open_file.h"
 #include "options.h"
@@ -14,7 +12,7 @@
 int
 main(int argc, char *argv[])
 {
-  int exit_failure = 0;
+  int exit_code = EXIT_SUCCESS;
 
   const struct options_type options
     = get_options(argc, argv);           /* options.h */
@@ -33,15 +31,15 @@ main(int argc, char *argv[])
       {
             /* open_file.h */
         if (open_file(*argv, &buffer, &options) == EXIT_FAILURE)
-          exit_failure = 1;
+          exit_code = EXIT_FAILURE;
       }
   }
   else
     if (open_file(NULL, &buffer, &options)    /* open_file.h */
         == EXIT_FAILURE)
-      exit_failure = 1;
+      exit_code = EXIT_FAILURE;
 
   /* free_buffer() will be called at exit */
 
-  return exit_failure ? EXIT_FAILURE : EXIT_SUCCESS;
+  return exit_code;
 }
