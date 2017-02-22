@@ -17,8 +17,8 @@ struct options_type
   int always_hyphenate;
 };
 
-extern int is_file(const char *arg);                 /* options.c */
+extern int is_file(const char *arg);
 extern struct options_type
-       get_options(int argc, char *argv[]);          /* options.c */
+       get_options(int argc, char *argv[]);
 
 #endif

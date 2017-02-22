@@ -2,7 +2,6 @@
 /* January-February 2017 */
 /* options.c */
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <limits.h>
