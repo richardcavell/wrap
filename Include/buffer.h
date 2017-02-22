@@ -14,8 +14,8 @@ struct buffer_type
 {
   ch_type *text;
   size_t buffer_size;
-  unsigned int bufpos;
-  unsigned int endpos;
+  size_t bufpos;
+  size_t endpos;
   int empty;
 };
 

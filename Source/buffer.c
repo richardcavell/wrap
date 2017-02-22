@@ -2,7 +2,6 @@
 /* January-February 2017 */
 /* buffer.c */
 
-#include <stdio.h>
 #include <stdlib.h>
 
 #include "buffer.h"
@@ -10,7 +9,7 @@
 #include "error.h"
 #include "options.h"
 
-static ch_type *text;
+static ch_type *text;    /* This is only for our atexit()-registered fn */
 
 struct buffer_type
 get_buffer(const struct options_type *options)
