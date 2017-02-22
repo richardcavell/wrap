@@ -8,9 +8,10 @@
 #include <limits.h>
 #include <assert.h>
 
+#include "options.h"
+
 #include "config.h"
 #include "error.h"
-#include "options.h"
 
 static const struct options_type default_options =
 {
