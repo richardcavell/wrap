@@ -6,6 +6,7 @@
 #include <stdlib.h>
 
 #include "buffer.h"
+
 #include "error.h"
 #include "options.h"
 

@@ -6,9 +6,9 @@
 #include <stdlib.h>
 #include <errno.h>
 
-#include "config.h"
-#include "error.h"
 #include "open_file.h"
+
+#include "error.h"
 #include "options.h"
 
 static FILE *fp;
