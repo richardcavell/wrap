@@ -3,7 +3,6 @@
 # Plan
 
 == To do ==
-Add const where possible
 Get comments on my makefile
 Get comments on my script
 Get comments on my code
@@ -34,3 +33,4 @@ Rename struct _t (reserved name)
 Convert Makefile so that it uses pattern rules
 Check the result of printf()
 Rename VOID_TEXT
+Add const where possible
