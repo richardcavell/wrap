@@ -13,7 +13,7 @@
 
 static FILE *fp;
 
-static int xclose_file(const char *fn);
+static int xclose_file(const char *fn); /* fn can be NULL */
 static void wrap_file(FILE *fp, struct buffer_type *buffer,
                       const struct options_type *options);
 
