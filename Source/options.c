@@ -131,7 +131,7 @@ option_length(const char *param_match, const char *param_remainder,
               struct options_type *options)
 {
   options->line_length = get_ui(param_remainder, param_match,
-                               LENGTH_MIN, LENGTH_MAX);
+                               LENGTH_MIN, LENGTH_MAX); /* macros from config.h */
 }
 
 static void
@@ -139,7 +139,7 @@ option_stops(const char *param_match, const char *param_remainder,
              struct options_type *options)
 {
   options->stops = get_ui(param_remainder, param_match,
-                         STOPS_MIN, STOPS_MAX);
+                         STOPS_MIN, STOPS_MAX); /* macros from config.h */
 }
 
 static void check_param_finished(const char *param_match,
@@ -166,9 +166,9 @@ static void
 option_buffer(const char *param_match, const char *param_remainder,
               struct options_type *options)
 {
-  assert(BUFFER_MAX <= UINT_MAX);
+  assert(BUFFER_MAX <= UINT_MAX); /* macros are from config.h */
   options->buffer_size = get_ui(param_remainder, param_match,
-                               BUFFER_MIN, BUFFER_MAX);
+                                BUFFER_MIN, BUFFER_MAX);
 }
 
 static void
