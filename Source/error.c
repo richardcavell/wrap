@@ -1,3 +1,4 @@
+/* wrap by Richard Cavell v1.0 */
 /* January-February 2017 */
 /* error.c */
 
@@ -35,7 +36,7 @@ xfprintf(FILE *stream, const char *s, va_list ap, const char *stream_name)
 {
   if (vfprintf(stream, s, ap) < 0)
   {
-    (void) fprintf(stderr, "Unable to print to %s\n", stream_name);
+    (void) fprintf(stderr, "Error: Unable to print to %s\n", stream_name);
     exit(EXIT_FAILURE);
   }
 }
