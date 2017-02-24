@@ -23,36 +23,21 @@ static const struct options_type default_options =
   DEFAULT_ALWAYS_HYPHENATE     /* config.h */
 };
 
-static void
-option_always_hyphenate(const char *param_match, const char *param_remainder,
-                        struct options_type *options);
+typedef void option_fn(const char *param_match, const char *param_remainder,
+                       struct options_type *options);
 
-static void
-option_line_break(const char *param_match, const char *param_remainder,
-                  struct options_type *options);
-
-static void
-option_buffer(const char *param_match, const char *param_remainder,
-              struct options_type *options);
-
-static void
-option_length(const char *param_match, const char *param_remainder,
-              struct options_type *options);
-
-static void
-option_stops(const char *param_match, const char *param_remainder,
-             struct options_type *options);
-
-static void
-print_help(const char *param_match, const char *param_remainder,
-           struct options_type *options);
+static option_fn option_always_hyphenate,
+                 option_line_break,
+                 option_buffer,
+                 option_length,
+                 option_stops,
+                 print_help;
 
 struct parameter_type
 {
   const char *short_name, *long_name;
   const char *help_text;
-  void (*fn)(const char *param_match, const char *param_remainder,
-             struct options_type *options);
+  option_fn *fn;
 };
 
 static const struct parameter_type parameters[] =
@@ -69,9 +54,8 @@ static const struct parameter_type parameters[] =
 };
 
 static int
-find_match(const char *text, const char *arg, void (*fn)
-                (const char *param_match, const char *param_remainder,
-                 struct options_type *options), struct options_type *options);
+find_match(const char *text, const char *arg, option_fn *fn,
+           struct options_type *options);
 
 struct options_type
 get_options(int argc, char *argv[])
@@ -112,16 +96,15 @@ get_options(int argc, char *argv[])
 }
 
 static int
-find_match(const char *text, const char *arg, void (*fn)
-                (const char *param_match, const char *param_remainder,
-                 struct options_type *options), struct options_type *options)
+find_match(const char *text, const char *arg, option_fn *fn,
+                 struct options_type *options)
 {
   int matched = 0;
 
   if (strncmp(text, arg, strlen(text)) == 0)
   {
-    fn(text, arg + strlen(text), options);
     matched = 1;
+    fn(text, arg + strlen(text), options);
   }
 
   return matched;
