@@ -3,7 +3,6 @@
 # Plan
 
 == To do ==
-Convert help text to short & little
 Get comments on my makefile
 Get comments on my script
 Get comments on my code
@@ -11,7 +10,6 @@ Get comments on my code
 == Considering ==
 Consider using getopt to do the grunt work
 Change #defines to const ints
-Make help text so that all options are on the same line
 Rename config.h to something else
 Find a type that is more suitable for bufpos/endpos in buffer.h
 
@@ -36,3 +34,5 @@ Convert Makefile so that it uses pattern rules
 Check the result of printf()
 Rename VOID_TEXT
 Add const where possible
+Make help text so that all options are on the same line
+Convert help text to short & long

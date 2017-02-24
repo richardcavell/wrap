@@ -20,7 +20,7 @@
 #define DEFAULT_STOPS 8
 #define STOPS_MAX 100
 
-#define HELP_TEXT_VOID "  ..."
+#define HELP_DIVIDER 30
 
 #define DEFAULT_INVOCATION "wrap"
 #define DEFAULT_ALWAYS_HYPHENATE 0

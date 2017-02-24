@@ -2,6 +2,7 @@
 /* January-February 2017 */
 /* options.c */
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <limits.h>
@@ -50,7 +51,7 @@ print_help(const char *param_match, const char *param_remainder,
 
 struct parameter_type
 {
-  const char *s;
+  const char *short_name, *long_name;
   const char *help_text;
   void (*fn)(const char *param_match, const char *param_remainder,
              struct options_type *options);
@@ -58,21 +59,21 @@ struct parameter_type
 
 static const struct parameter_type parameters[] =
 {
-  { "-a",                 NULL,                     option_always_hyphenate } ,
-  { "--always-hyphenate", "Hyphenate instead of line-break",
-                                                    option_always_hyphenate } ,
-  { "-k",                 NULL,                           option_line_break } ,
-  { "--line-break",       "Line-break where possible",    option_line_break } ,
-  { "-b=",                NULL,                           option_buffer } ,
-  { "--buffer=",          "Buffer size",                  option_buffer } ,
-  { "-l=",                NULL,                           option_length } ,
-  { "--length=",          "Line length",                  option_length } ,
-  { "-s=",                NULL,                           option_stops } ,
-  { "--stops=",           "Tab stop distance",            option_stops } ,
-  { "-h",                 NULL,                           print_help } ,
-  { "--help",             "Prints out this help text",    print_help } ,
-  { NULL,                 NULL,                           NULL }
+  { "-a",  "--always-hyphenate",
+                           "Hyphenate instead of line-break",
+                                                  option_always_hyphenate } ,
+  { "-k",  "--line-break", "Line-break where possible", option_line_break } ,
+  { "-b=", "--buffer=",    "Buffer size",               option_buffer } ,
+  { "-l=", "--length=",    "Line length",               option_length } ,
+  { "-s=", "--stops=",     "Tab stop distance",         option_stops } ,
+  { "-h",  "--help",       "Prints out this help text", print_help } ,
+  { NULL,  NULL,           NULL,                        NULL }
 };
+
+static int
+find_match(const char *text, const char *arg, void (*fn)
+                (const char *param_match, const char *param_remainder,
+                 struct options_type *options), struct options_type *options);
 
 struct options_type
 get_options(int argc, char *argv[])
@@ -98,14 +99,10 @@ get_options(int argc, char *argv[])
       continue;
     }
 
-    for (; !matched && param->s; ++param)
+    for (; !matched && param->short_name; ++param)
     {
-      if (strncmp(param->s, *argv, strlen(param->s)) == 0)
-      {
-        matched = 1;
-        param->fn(param->s, *argv + strlen(param->s),
-                  &options);
-      }
+      matched =    find_match(param->short_name, *argv, param->fn, &options)
+                || find_match(param->long_name, *argv, param->fn, &options);
     }
 
     if (!matched)
@@ -114,6 +111,23 @@ get_options(int argc, char *argv[])
 
   return options;
 }
+
+static int
+find_match(const char *text, const char *arg, void (*fn)
+                (const char *param_match, const char *param_remainder,
+                 struct options_type *options), struct options_type *options)
+{
+  int matched = 0;
+
+  if (strncmp(text, arg, strlen(text)) == 0)
+  {
+    fn(text, arg + strlen(text), options);
+    matched = 1;
+  }
+
+  return matched;
+}
+
 
 int
 is_file(const char *arg)
@@ -183,11 +197,14 @@ print_help(const char *param_match, const char *param_remainder,
   xprintf("Usage: %s [options] [filenames]\n", options->invocation);
   xprintf("Options:\n");
 
-  for (;param->s; ++param)
+  for (;param->short_name; ++param)
   {
-    const char *ht = (param->help_text) ?
-                      param->help_text : HELP_TEXT_VOID;
-    xprintf("  %-20s      %-40s\n", param->s, ht);
+    char buf[HELP_DIVIDER];
+
+    assert(snprintf(buf, HELP_DIVIDER, "%s, %s",
+                    param->short_name, param->long_name)
+           < HELP_DIVIDER);
+    xprintf(" %-*s %-40s\n", HELP_DIVIDER, buf, param->help_text);
   }
 
   exit(EXIT_SUCCESS);
