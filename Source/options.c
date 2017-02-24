@@ -23,8 +23,6 @@ static const struct options_type default_options =
   DEFAULT_ALWAYS_HYPHENATE     /* config.h */
 };
 
-int is_file(const char *arg);
-
 static void
 option_always_hyphenate(const char *param_match, const char *param_remainder,
                         struct options_type *options);
@@ -91,6 +89,7 @@ get_options(int argc, char *argv[])
   while (*++argv)
   {
     const struct parameter_type *param = parameters;
+    int is_file(const char *arg);
     int matched = 0;
 
     if (is_file(*argv))
