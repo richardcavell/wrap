@@ -43,7 +43,7 @@ static FILE *fp = NULL;
 static int
 xclose_file(const char *fn)
 {
-  if (fp && fp != stdin)
+  if (fp != NULL && fp != stdin)
   {
     int close_code = fclose(fp);
 
@@ -97,8 +97,12 @@ wrap_file(FILE *fp, struct buffer_type *buffer,
     xprintf("Stops: %u\n", options->stops);
     xprintf("Always hyphenate: %s\n",
            options->always_hyphenate ? "Yes" : "No" );
-    xprintf("FP : %p\n", fp);
-  }
+    xprintf("File pointer : %p\n", fp);
 
-  done = 1;
+    done = 1;
+  }
+  else
+  {
+    xprintf("New file pointer : %p\n", fp);
+  }
 }
