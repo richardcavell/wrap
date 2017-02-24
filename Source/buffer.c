@@ -9,7 +9,7 @@
 #include "error.h"
 #include "options.h"
 
-static ch_type *text;    /* This is only for our atexit()-registered fn */
+static ch_type *text;
 
 struct buffer_type
 get_buffer(const struct options_type *options)
@@ -31,13 +31,12 @@ get_buffer(const struct options_type *options)
   return buffer;
 }
 
-static ch_type *text = NULL;
-
-void free_buffer(void);
+static ch_type *text = NULL;  /* This is only for our atexit()-registered fn */
 
 int
 register_free_buffer(void)
 {
+  void free_buffer(void);
   return atexit(free_buffer);
 }
 
