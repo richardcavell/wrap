@@ -20,6 +20,6 @@ struct buffer_type
 };
 
 extern struct buffer_type get_buffer(const struct options_type *options);
-extern int register_free_buffer(void);
+extern int reg_free_buffer(void);
 
 #endif

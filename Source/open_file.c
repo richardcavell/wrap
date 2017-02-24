@@ -75,7 +75,7 @@ close_file(void)
 }
 
 int
-register_close_file(void)
+reg_close_file(void)
 {
   return atexit(close_file);
 }

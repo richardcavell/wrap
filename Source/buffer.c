@@ -34,7 +34,7 @@ get_buffer(const struct options_type *options)
 static ch_type *text = NULL;  /* This is only for our atexit()-registered fn */
 
 int
-register_free_buffer(void)
+reg_free_buffer(void)
 {
   void free_buffer(void);
   return atexit(free_buffer);
