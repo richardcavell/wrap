@@ -3,7 +3,6 @@
 # Plan
 
 == To do ==
-Get comments on my script
 Get comments on my code
 Add option for line numbers
 
@@ -37,3 +36,4 @@ Add const where possible
 Make help text so that all options are on the same line
 Convert help text to short & long
 Get comments on my makefile
+Get comments on my script
