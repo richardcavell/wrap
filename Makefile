@@ -3,7 +3,7 @@
 # Makefile
 
 vpath %.c Source
-vpath %.h Include
+vpath %.h Source
 vpath %.o Object
 
 # flag -Weverything gives a useless warning about padding in structs
@@ -11,14 +11,14 @@ CPPFLAGS = -I Include -std=c89 -Wall -Werror -Wextra -pedantic
 
 # All object files are built using this command list
 %.o:
-	@echo "Building" $(@F)"..."
-	@$(COMPILE.c) $< $(OUTPUT_OPTION)
+	@echo "Compiling" $(<F)"..."
+	$(COMPILE.c) $< $(OUTPUT_OPTION)
 
 all: wrap
 
 wrap: main.o buffer.o error.o open_file.o options.o
-	@echo "Linking  "$(@F)"..."
-	@$(LINK.c) $^ $(OUTPUT_OPTION)
+	@echo "Linking "$(@F)"..."
+	$(LINK.c) $^ $(OUTPUT_OPTION)
 	@echo "Executable" '"'$(@F)'"' "has been built."
 
 Object/main.o:       main.c buffer.h error.h open_file.h options.h
@@ -34,6 +34,4 @@ open_file.h:         buffer.h options.h
 .PHONY: all clean
 
 clean:
-	@rm -f wrap Object/main.o Object/buffer.o Object/error.o 
-	@rm -f Object/open_file.o Object/options.o
-	@echo "All intermediate files have been deleted."
+	rm -f wrap Object/main.o Object/buffer.o Object/error.o Object/open_file.o Object/options.o
