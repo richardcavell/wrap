@@ -11,29 +11,3 @@ Consider using getopt to do the grunt work
 Change #defines to const ints
 Rename config.h to something else
 Find a type that is more suitable for bufpos/endpos in buffer.h
-
-== Done ==
-Most of the option parsing code should be moved to options.c
-options_t is the kind of size where you should be passing around pointers, rather than always passing by value.
-You re-declare open_file(const char *fn, struct options_t options); inside main.
-Your default options invocation should be DEFAULT_INVOCATION and not NULL.
-In options_t, the member 'int files' is far too non-descriptive.
-You have a buffer size in options_t, but no buffer pointer (though you do allocate a buffer in open_file()
-if ( buffer ) guarding free(buffer) is a waste, since free(NULL) is a safe operation to begin with.
-Operand reversal is so 1980's - EOF == fclose(fp). See Question 17.4
-Failing to open/close a file should not normally cause a program to exit.
-Change #define of chars to const chars
-Change **argv != hyphen to is_option()
-Update the date of source code files
-Remove actual_arg from parameter lists
-Add -Wextra to CPPFLAGS
-Create buffer info struct, file info struct
-Rename struct _t (reserved name)
-Convert Makefile so that it uses pattern rules
-Check the result of printf()
-Rename VOID_TEXT
-Add const where possible
-Make help text so that all options are on the same line
-Convert help text to short & long
-Get comments on my makefile
-Get comments on my script
