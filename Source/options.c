@@ -181,12 +181,10 @@ print_help(const char *param_match, const char *param_remainder,
 
   for (;param->short_name; ++param)
   {
-    char buf[HELP_DIVIDER];
-
-    assert(snprintf(buf, HELP_DIVIDER, "%s, %s",
-                    param->short_name, param->long_name)
-           < HELP_DIVIDER);
-    xprintf(" %-*s %-40s\n", HELP_DIVIDER, buf, param->help_text);
+    xprintf(" %-*sor  %-*s%s\n",
+              HELP_DIVIDER1, param->short_name,
+              HELP_DIVIDER2, param->long_name,
+              param->help_text);
   }
 
   exit(EXIT_SUCCESS);
