@@ -3,4 +3,4 @@
 # cnt
 
 echo "Lines of source code..."
-wc -l Source/* Include/* Makefile
+wc -l Source/* Makefile
