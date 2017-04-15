@@ -1,7 +1,7 @@
                 Wrap
                 ----
 
-Version 1.0 (January-February 2017).
+Version 1.0 (January-April 2017).
 
 A word-wrapping program written by Richard Cavell.
 
