@@ -13,4 +13,4 @@ It is written in standard C89.
 
 To build, type "make".  To run, run the "wrap"
 program in the top-level directory.  To see the
-options, run the program with the option --help.
+options, run wrap with the option --help.
