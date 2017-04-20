@@ -2,8 +2,6 @@
 # January-April 2017
 # cnt
 
-cd Source
-echo "Lines of source code in :" $PWD
-wc -l *.c *.h
-cd $OLDPWD
+echo "Line count:"
+wc -l Source/*.c Include/*.h
 
