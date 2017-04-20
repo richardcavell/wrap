@@ -3,7 +3,7 @@
 # Makefile
 
 vpath %.c Source
-vpath %.h Source
+vpath %.h Include
 vpath %.o Object
 
 # flag -Weverything gives a useless warning about padding in structs
