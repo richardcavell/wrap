@@ -14,10 +14,11 @@ CPPFLAGS = -I Include -std=c89 -Wall -Werror -Wextra -pedantic
 	@echo "Compiling" $(<F)"..."
 	$(COMPILE.c) $< $(OUTPUT_OPTION)
 
+.PHONY: all
 all: wrap
 
 wrap: main.o buffer.o error.o open_file.o options.o
-	@echo "Linking "$(@F)"..."
+	@echo "Linking " $(@F) "..."
 	$(LINK.c) $^ $(OUTPUT_OPTION)
 	@echo "Executable" '"'$(@F)'"' "has been built."
 
@@ -31,7 +32,8 @@ Object/options.o:    options.c options.h config.h error.h
 buffer.h:            config.h options.h
 open_file.h:         buffer.h options.h
 
-.PHONY: all clean
+.PHONY: clean
 
 clean:
-	rm -f wrap Object/main.o Object/buffer.o Object/error.o Object/open_file.o Object/options.o
+	rm -f wrap Object/main.o Object/buffer.o Object/error.o \
+Object/open_file.o Object/options.o
