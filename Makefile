@@ -34,6 +34,6 @@ open_file.h:         buffer.h options.h
 
 .PHONY: clean
 clean:
-	rm -f wrap Object/main.o Object/buffer.o Object/error.o \
+	$(RM) wrap Object/main.o Object/buffer.o Object/error.o \
 Object/open_file.o Object/options.o
 
