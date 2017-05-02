@@ -26,6 +26,8 @@
 #define DEFAULT_INVOCATION "wrap"
 #define DEFAULT_ALWAYS_HYPHENATE 0
 
+#define VERSION_TEXT "Wrap v1.0 by Richard Cavell\n"
+
 typedef char ch_type;
   /* End of user-modifiable values */
 

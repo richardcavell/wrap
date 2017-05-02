@@ -31,7 +31,8 @@ static option_fn option_always_hyphenate,
                  option_buffer,
                  option_length,
                  option_stops,
-                 print_help;
+                 print_help,
+                 print_version;
 
 struct parameter_type
 {
@@ -50,6 +51,7 @@ static const struct parameter_type parameters[] =
   { "-l=", "--length=",    "Line length",               option_length } ,
   { "-s=", "--stops=",     "Tab stop distance",         option_stops } ,
   { "-h",  "--help",       "Prints out this help text", print_help } ,
+  { "-v",  "--version",    "Version number",            print_version } ,
   { NULL,  NULL,           NULL,                        NULL }
 };
 
@@ -175,7 +177,7 @@ print_help(const char *param_match, const char *param_remainder,
 
   check_param_finished(param_match, param_remainder);
 
-  xprintf("Wrap v1.0 by Richard Cavell\n");
+  xprintf(VERSION_TEXT);
   xprintf("Usage: %s [options] [filenames]\n", options->invocation);
   xprintf("Options:\n");
 
@@ -188,6 +190,19 @@ print_help(const char *param_match, const char *param_remainder,
   }
 
   exit(EXIT_SUCCESS);
+}
+
+static void
+print_version(const char *param_match, const char *param_remainder,
+              struct options_type *options)
+{
+  /* Suppress compiler warnings about unused parameters */
+
+  (void) param_match;
+  (void) param_remainder;
+  (void) options;
+
+  xprintf(VERSION_TEXT);
 }
 
 static unsigned int
