@@ -203,6 +203,7 @@ print_version(const char *param_match, const char *param_remainder,
   (void) options;
 
   xprintf(VERSION_TEXT);
+  exit(EXIT_SUCCESS);
 }
 
 static unsigned int
