@@ -44,15 +44,15 @@ struct parameter_type
 static const struct parameter_type parameters[] =
 {
   { "-a",  "--always-hyphenate",
-                           "Hyphenate instead of line-break",
-                                                  option_always_hyphenate } ,
-  { "-b=", "--buffer=",    "Buffer size",               option_buffer } ,
-  { "-k",  "--line-break", "Line-break where possible", option_line_break } ,
-  { "-l=", "--length=",    "Line length",               option_length } ,
-  { "-s=", "--stops=",     "Tab stop distance",         option_stops } ,
-  { "-h",  "--help",       "Prints out this help text", print_help } ,
-  { "-v",  "--version",    "Version number",            print_version } ,
-  { NULL,  NULL,           NULL,                        NULL }
+                             "Hyphenate instead of line-break",
+                                                option_always_hyphenate } ,
+  { "-b=", "--buffer-size=", "Buffer size",               option_buffer } ,
+  { "-k",  "--line-break",   "Line-break where possible", option_line_break } ,
+  { "-l=", "--line-length=", "Line length",               option_length } ,
+  { "-s=", "--stops=",       "Tab stop distance",         option_stops } ,
+  { "-h",  "--help",         "Prints out this help text", print_help } ,
+  { "-v",  "--version",      "Version number",            print_version } ,
+  { NULL,  NULL,             NULL,                        NULL }
 };
 
 static int
