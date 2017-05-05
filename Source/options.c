@@ -201,6 +201,12 @@ option_buffer_size(const char *param_match, const char *param_remainder,
 }
 
 static void
+print_version_text(void)
+{
+  xprintf(VERSION_TEXT);
+}
+
+static void
 print_help(const char *param_match, const char *param_remainder,
            struct options_type *options)
 {
@@ -209,7 +215,7 @@ print_help(const char *param_match, const char *param_remainder,
 
   check_param_finished(param_match, param_remainder);
 
-  xprintf(VERSION_TEXT);
+  print_version_text();
   xprintf("Usage: %s [options] [filenames]\n", options->invocation);
   xprintf("Options:\n");
 
@@ -238,7 +244,7 @@ print_version(const char *param_match, const char *param_remainder,
   (void) param_remainder;
   (void) options;
 
-  xprintf(VERSION_TEXT);
+  print_version_text();
   exit(EXIT_SUCCESS);
 }
 
