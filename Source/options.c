@@ -44,12 +44,43 @@ struct parameter_type
 static const struct parameter_type parameters[] =
 {
   { "-a",  "--always-hyphenate",
-                             "Hyphenate instead of line-break",
-                                                option_always_hyphenate } ,
-  { "-b=", "--buffer-size=", "Buffer size",               option_buffer } ,
-  { "-k",  "--line-break",   "Line-break where possible", option_line_break } ,
-  { "-l=", "--line-length=", "Line length",               option_length } ,
-  { "-s=", "--stops=",       "Tab stop distance",         option_stops } ,
+    "Fill up each line"
+#if (DEFAULT_ALWAYS_HYPHENATE)
+        " (default)" 
+#else
+        " (switches off -k)"
+#endif
+        ,
+    option_always_hyphenate } ,
+
+  { "-b=", "--buffer-size=", 
+    "Buffer size (default "
+      DEFAULT_BUFFER_SIZE_TEXT
+      ")",
+    option_buffer } ,
+
+  { "-k",  "--line-break",
+    "Line-break after whole words"
+#if (DEFAULT_ALWAYS_HYPHENATE == 0)
+        " (default)"
+#else
+        " (switches off -a)"
+#endif
+        ,
+    option_line_break } ,
+
+  { "-l=", "--line-length=",
+    "Line length (default "
+      DEFAULT_LINE_LENGTH_TEXT
+      ")",
+    option_length } ,
+
+  { "-s=", "--stops=",
+    "Tab stop distance (default "
+      DEFAULT_STOPS_TEXT
+      ")",
+    option_stops } ,
+
   { "-h",  "--help",         "Prints out this help text", print_help } ,
   { "-v",  "--version",      "Version number",            print_version } ,
   { NULL,  NULL,             NULL,                        NULL }
