@@ -4,11 +4,10 @@
 
 == To do ==
 Get comments on my code
+Change BUFFER_MAX to SIZE_MAX
 
 == Considering ==
 Consider using getopt to do the grunt work
 Change #defines to const ints
 Rename config.h to something else
 Find a type that is more suitable for bufpos/endpos in buffer.h
-Do something about the ugliness of lines 44-87 in Source/options.c
- + is it standard C89 to concatenate strings like that?
