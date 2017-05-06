@@ -5,6 +5,7 @@
 vpath %.c Source
 vpath %.h Include
 vpath %.o Object
+vpath %.txt . Source/Text
 
 # flag -Weverything gives a useless warning about padding in structs
 CPPFLAGS = -I Include -std=c89 -Wall -Werror -Wextra -pedantic
@@ -15,7 +16,7 @@ CPPFLAGS = -I Include -std=c89 -Wall -Werror -Wextra -pedantic
 	$(COMPILE.c) $< $(OUTPUT_OPTION)
 
 .PHONY: all
-all: wrap
+all: wrap Readme.txt
 
 wrap: main.o buffer.o error.o open_file.o options.o
 	@echo "Linking " $(@F) "..."
@@ -31,6 +32,10 @@ Object/options.o:    options.c options.h config.h error.h
 # Some header files #include other header files
 buffer.h:            config.h options.h
 open_file.h:         buffer.h options.h
+
+Readme.txt: version.txt newline.txt readme_header.txt newline.txt\
+            info.txt newline.txt readme_footer.txt
+	cat $+ > $@
 
 .PHONY: clean
 clean:
