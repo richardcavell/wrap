@@ -34,12 +34,15 @@ Object/options.o:    options.c options.h config.h error.h
 buffer.h:            config.h options.h
 open_file.h:         buffer.h options.h
 
-Readme.txt: version.txt newline.txt readme_header.txt newline.txt\
-            info.txt newline.txt readme_footer.txt
+README_FILES = version.txt newline.txt\
+               readme_header.txt newline.txt\
+               info.txt newline.txt\
+               readme_footer.txt
+
+Readme.txt: $(README_FILES)
 	cat $+ > $@
 
 .PHONY: clean
 clean:
 	$(RM) wrap Object/main.o Object/buffer.o Object/error.o \
-Object/open_file.o Object/options.o
-
+              Object/open_file.o Object/options.o
