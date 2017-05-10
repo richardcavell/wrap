@@ -16,6 +16,7 @@ CPPFLAGS = -I Include
 	@echo "Compiling" $(<F)"..."
 	$(COMPILE.c) $< $(OUTPUT_OPTION)
 
+.DEFAULT: all
 .PHONY: all
 all: wrap Readme.txt
 
