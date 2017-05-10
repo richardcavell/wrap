@@ -5,7 +5,8 @@ Wrap v1.0 by Richard Cavell
 A word-wrapping program written by Richard Cavell.
 
 This program handles all characters that are
-mentioned in K&R 2nd edition, including backspace,
+mentioned in "The C Programming Language" by Kernighan
+and Ritchie (2nd edition), including backspace,
 tab, vertical tab, carriage return, and unprintable
 characters.  It also handles extremely long lines.
 It will only work with "narrow" characters, and

@@ -7,8 +7,9 @@ vpath %.h Include
 vpath %.o Object
 vpath %.txt . Source/Text
 
-# flag -Weverything gives a useless warning about padding in structs
-CPPFLAGS = -I Include -std=c89 -Wall -Werror -Wextra -pedantic
+# -Weverything gives a useless warning about padding in structs
+CFLAGS = -std=c89 -Wall -Werror -Wextra -pedantic
+CPPFLAGS = -I Include
 
 # All object files are built using this command list
 %.o:
