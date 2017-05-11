@@ -45,7 +45,12 @@ README_FILES = version.txt newline.txt\
 Readme.txt: $(README_FILES)
 	cat $+ > $@
 
+OBJECT_FILES = Object/main.o\
+ Object/buffer.o\
+ Object/error.o\
+ Object/open_file.o\
+ Object/options.o
+
 .PHONY: clean
 clean:
-	$(RM) wrap Object/main.o Object/buffer.o Object/error.o \
-              Object/open_file.o Object/options.o
+	$(RM) wrap $(OBJECT_FILES)
