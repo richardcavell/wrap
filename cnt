@@ -2,5 +2,5 @@
 # January-April 2017
 # cnt
 
-echo "Line count:"
+echo "Line count..."
 wc -l Source/*.c Include/*.h
