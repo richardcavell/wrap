@@ -58,4 +58,4 @@ OBJECT_FILES = Object/main.o\
 .PHONY: clean
 clean:
 	@echo "Removing object files..."
-	@$(RM) -v wrap $(OBJECT_FILES)
+	@$(RM) -v $(OBJECT_FILES) wrap
