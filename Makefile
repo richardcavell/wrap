@@ -13,20 +13,16 @@ CC += -std=c89
 CFLAGS += -Wall -Werror -Wextra -Wconversion -Wpedantic
 CFLAGS += -I Include
 
+.DEFAULT: all
+.PHONY: all
+all: wrap Readme.txt
+
 # All object files are built using this command list
 %.o:
 	@echo "Compiling" $(<F)"..."
 	$(COMPILE.c) $< $(OUTPUT_OPTION)
 
-.DEFAULT: all
-.PHONY: all
-all: wrap Readme.txt
-
-wrap: main.o buffer.o error.o open_file.o options.o
-	@echo "Linking " $(@F) "..."
-	$(LINK.c) $^ $(OUTPUT_OPTION)
-	@echo "Executable" '"'$(@F)'"' "has been built."
-
+# Dependencies for each of the object files
 Object/main.o:       main.c buffer.h error.h open_file.h options.h
 Object/buffer.o:     buffer.c buffer.h error.h options.h
 Object/error.o:      error.c error.h
@@ -37,6 +33,13 @@ Object/options.o:    options.c options.h config.h error.h
 buffer.h:            config.h options.h
 open_file.h:         buffer.h options.h
 
+# This is the final link step for the wrap program
+wrap: main.o buffer.o error.o open_file.o options.o
+	@echo "Linking " $(@F) "..."
+	$(LINK.c) $^ $(OUTPUT_OPTION)
+	@echo "Executable" '"'$(@F)'"' "has been built."
+
+# This builds the Readme.txt file
 README_FILES = version.txt newline.txt\
                readme_header.txt newline.txt\
                info.txt newline.txt\
@@ -45,6 +48,7 @@ README_FILES = version.txt newline.txt\
 Readme.txt: $(README_FILES)
 	cat $+ > $@
 
+# This creates a clean target, which removes intermediate files
 OBJECT_FILES = Object/main.o\
  Object/buffer.o\
  Object/error.o\
@@ -55,4 +59,3 @@ OBJECT_FILES = Object/main.o\
 clean:
 	@echo "Removing object files..."
 	@$(RM) -v wrap $(OBJECT_FILES)
-
