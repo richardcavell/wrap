@@ -11,7 +11,7 @@ vpath %.txt . Source/Text
 CC += -std=c89
 # -Weverything gives a useless warning about padding in structs
 CFLAGS += -Wall -Werror -Wextra -Wconversion -Wpedantic
-CFLAGS += -I Include
+CPPFLAGS += -I Include
 
 .DEFAULT: all
 .PHONY: all
@@ -35,7 +35,7 @@ open_file.h:         buffer.h options.h
 
 # This is the final link step for the wrap program
 wrap: main.o buffer.o error.o open_file.o options.o
-	@echo "Linking " $(@F) "..."
+	@echo "Linking " $(@F)"..."
 	$(LINK.c) $^ $(OUTPUT_OPTION)
 	@echo "Executable" '"'$(@F)'"' "has been built."
 
@@ -48,7 +48,7 @@ README_FILES = version.txt newline.txt\
 Readme.txt: $(README_FILES)
 	cat $+ > $@
 
-# This creates a clean target, which removes intermediate files
+# This removes intermediate files
 OBJECT_FILES = Object/main.o\
  Object/buffer.o\
  Object/error.o\
