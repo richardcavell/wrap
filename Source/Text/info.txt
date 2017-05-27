@@ -1,4 +1,4 @@
-A word-wrapping program written by Richard Cavell.
+A word-wrapping program.
 
 This program handles all characters that are
 mentioned in "The C Programming Language" by Kernighan

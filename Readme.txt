@@ -2,7 +2,7 @@ Wrap v1.0 by Richard Cavell
 
 (January-April 2017)
 
-A word-wrapping program written by Richard Cavell.
+A word-wrapping program.
 
 This program handles all characters that are
 mentioned in "The C Programming Language" by Kernighan
@@ -12,7 +12,10 @@ characters.  It also handles extremely long lines.
 It will only work with "narrow" characters, and
 assumes that your output text is monospaced.
 
-This program is written in standard C89.  To build
-with GNU Make, type "make".  To run, run the "wrap"
-program in the top-level directory.  To see the
-options, run "wrap --help". 
+This program is written in standard C89, and should
+work with any operating system (although you may
+have to customize the build process for your OS).
+
+To build with GNU Make, type "make".  To run, run
+the "wrap" program in the top-level directory.  To
+see the options, run "wrap --help". 
