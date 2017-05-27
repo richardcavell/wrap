@@ -1,5 +1,5 @@
 # Wrap v1.0 by Richard Cavell
-# January-April 2017
+# Copyright (c) 2017 Richard John Foster Cavell
 # Makefile
 
 vpath %.c Source
@@ -40,7 +40,7 @@ wrap: main.o buffer.o error.o open_file.o options.o
 	@echo "Executable" '"'$(@F)'"' "has been built."
 
 # This builds the Readme.txt file
-README_FILES = version.txt newline.txt\
+README_FILES = version.txt\
                readme_header.txt newline.txt\
                info.txt newline.txt\
                readme_footer.txt

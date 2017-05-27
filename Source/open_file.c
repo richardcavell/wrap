@@ -1,5 +1,5 @@
 /* Wrap by Richard Cavell v1.0 */
-/* January-February 2017 */
+/* Copyright (c) 2017 Richard John Foster Cavell */
 /* open_file.c */
 
 #include <stdio.h>
