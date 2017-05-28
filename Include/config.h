@@ -15,7 +15,7 @@
 #define COLS 80
 #define LENGTH_MIN 5
 #define DEFAULT_LINE_LENGTH 20
-#define LENGTH_MAX 100
+#define LENGTH_MAX 200
 
 #define STOPS_MIN 1
 #define DEFAULT_STOPS 8
