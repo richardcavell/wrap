@@ -9,12 +9,12 @@
 
 struct options_type
 {
-  const char *invocation;
+  const char *invocation;  /* The name of this program, from the command line */
   int file_parameters;  /* Either 0 (absent) or 1 (present) */
   size_t buffer_size;
   unsigned int line_length;
   unsigned int stops;
-  int always_hyphenate;
+  int always_hyphenate; /* Either 0 or 1 */
 };
 
 extern int is_file(const char *arg);
