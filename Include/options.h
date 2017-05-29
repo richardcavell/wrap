@@ -10,7 +10,7 @@
 struct options_type
 {
   const char *invocation;
-  int file_parameters;
+  int file_parameters;  /* Either 0 (absent) or 1 (present) */
   size_t buffer_size;
   unsigned int line_length;
   unsigned int stops;
@@ -19,6 +19,6 @@ struct options_type
 
 extern int is_file(const char *arg);
 extern struct options_type
-  get_options(int argc, char *argv[]);
+         get_options(int argc, char *argv[]);
 
 #endif
