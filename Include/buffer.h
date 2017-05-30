@@ -19,7 +19,13 @@ struct buffer_type
   int empty;
 };
 
-extern struct buffer_type get_buffer(const struct options_type *options);
-extern int reg_free_buffer(void);
+extern struct buffer_type
+    create_buffer(const struct options_type *options);
+
+/* Call this at the start of the program.
+   It registers a callback with atexit().
+*/
+
+extern int register_free_buffer(void);
 
 #endif

@@ -18,10 +18,10 @@ main(int argc, char *argv[])
     = get_options(argc, argv);           /* options.h */
 
   struct buffer_type buffer
-    = get_buffer(&options);              /* buffer.h */
+    = create_buffer(&options);           /* buffer.h */
 
         /* buffer.h */     /* open_file.h */
-  if (reg_free_buffer() || reg_close_file())
+  if (register_free_buffer() || reg_close_file())
     fail_msg("Error: Couldn't register atexit function\n");
 
   if (options.file_parameters)
