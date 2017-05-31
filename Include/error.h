@@ -6,7 +6,9 @@
 #define ERROR_H
 
 extern void xprintf(const char *s, ...);   /* wrapper for printf() */
-extern void xerror(const char *s, ...);    /* this returns to the caller */
-extern void fail_msg(const char *s, ...);  /* this exits with EXIT_FAILURE */
+extern void xerror(const char *s, ...);    /* this prints to stderr and then
+                                              returns to the caller */
+extern void fail_msg(const char *s, ...);  /* this prints to stderr and then
+                                              exits with EXIT_FAILURE */
 
 #endif
