@@ -10,6 +10,11 @@
 #include "config.h"
 #include "options.h"
 
+/* 
+   A single object of this type will be created at the start of
+   the program, and passed to anything that works with the buffer.
+*/
+
 struct buffer_type
 {
   ch_type *text;
@@ -19,10 +24,16 @@ struct buffer_type
   int empty;
 };
 
+/*
+   Call this at the start of the program.
+   It creates the text buffer.
+*/
+
 extern struct buffer_type
     create_buffer(const struct options_type *options);
 
-/* Call this at the start of the program.
+/*
+   Call this at the start of the program.
    It registers a callback with atexit().
 */
 
