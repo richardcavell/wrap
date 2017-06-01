@@ -20,8 +20,8 @@ main(int argc, char *argv[])
   struct buffer_type buffer
     = create_buffer(&options);           /* buffer.h */
 
-        /* buffer.h */     /* open_file.h */
-  if (register_free_buffer() || reg_close_file())
+        /* buffer.h */            /* open_file.h */
+  if (register_free_buffer() || register_close_file())
     fail_msg("Error: Couldn't register atexit function\n");
 
   if (options.file_parameters)
