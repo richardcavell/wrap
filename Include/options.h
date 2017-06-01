@@ -17,7 +17,12 @@ struct options_type
   int always_hyphenate; /* Either 0 or 1 */
 };
 
-extern int is_file(const char *arg);
+extern int is_file(const char *arg); /* returns 0 or 1 */
+
+/*
+   Call this function once, at the start of the program,
+   with the command line arguments.
+*/
 extern struct options_type
          get_options(int argc, char *argv[]);
 
