@@ -6,7 +6,6 @@
 Get comments on my code
 Change BUFFER_MAX to SIZE_MAX
 Add info option
-Update dates on source code headers
 
 == Considering ==
 Consider using getopt to do the grunt work
