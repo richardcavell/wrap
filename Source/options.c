@@ -238,12 +238,10 @@ static void
 print_version(const char *param_match, const char *param_remainder,
               struct options_type *options)
 {
-  /* Suppress compiler warnings about unused parameters */
-
-  (void) param_match;
-  (void) param_remainder;
+  /* Suppress compiler warnings about unused parameter */
   (void) options;
 
+  check_param_finished(param_match, param_remainder);
   print_version_text();
   exit(EXIT_SUCCESS);
 }
