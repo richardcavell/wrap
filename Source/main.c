@@ -29,7 +29,7 @@ main(int argc, char *argv[])
     while (*++argv)
       if (is_file(*argv))    /*  options.h  */
       {
-            /* open_file.h */
+                       /* open_file.h */
         int ret_code = open_file(*argv, &buffer, &options);
 
         if (ret_code != EXIT_SUCCESS)
