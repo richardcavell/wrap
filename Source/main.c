@@ -22,7 +22,7 @@ main(int argc, char *argv[])
 
         /* buffer.h */            /* open_file.h */
   if (register_free_buffer() || register_close_file())
-    fail_msg("Error: Couldn't register atexit function\n");
+    /* error.h */ fail_msg("Error: Couldn't register atexit function\n");
 
   if (options.file_parameters)
   {
@@ -30,14 +30,14 @@ main(int argc, char *argv[])
       if (is_file(*argv))    /*  options.h  */
       {
             /* open_file.h */
-        if (open_file(*argv, &buffer, &options) == EXIT_FAILURE)
-          exit_code = EXIT_FAILURE;
+        int ret_code = open_file(*argv, &buffer, &options);
+
+        if (ret_code != EXIT_SUCCESS)
+          exit_code = ret_code;
       }
   }
   else
-    if (open_file(NULL, &buffer, &options)    /* open_file.h */
-        == EXIT_FAILURE)
-      exit_code = EXIT_FAILURE;
+    exit_code = open_file(NULL, &buffer, &options);    /* open_file.h */
 
   /* free_buffer() will be called at exit */
 
