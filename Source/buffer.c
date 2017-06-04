@@ -16,12 +16,10 @@ create_buffer(const struct options_type *options)
 {
   struct buffer_type buffer;
 
-  buffer.text = malloc(options->buffer_size);
-  text = buffer.text;
+  text = buffer.text = malloc(options->buffer_size);
 
-  if (buffer.text == NULL)
-    fail_msg("Error: Couldn't acquire %lu bytes for the buffer\n",
-             (unsigned long int) options->buffer_size);
+  if (text == NULL)
+    fail_msg("Error: Couldn't acquire memory for the buffer\n");
 
   buffer.buffer_size = options->buffer_size;
   buffer.bufpos = 0;
