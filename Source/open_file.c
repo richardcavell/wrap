@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
+#include <assert.h>
 
 #include "open_file.h"
 
@@ -44,29 +45,32 @@ static FILE *fp = NULL;
 static int
 xclose_file(const char *fn)
 {
+  int ret_code = EXIT_SUCCESS;
+
   if (fp != NULL && fp != stdin)
   {
     int close_code = fclose(fp);
 
     fp = NULL;
 
+    assert(fn); /* If fn == NULL then we are using stdin
+                   and shouldn't be here */
+
     if (close_code == EOF)
     {
-      xerror( "Error: Couldn't close file%s%s. Error code: %d\n",
-              fn ? " " : "",
-              fn ? fn : "",
-              errno);
+      xerror( "Error: Couldn't close file %s. Error code: %d\n",
+              fn, errno);
 
       /* If being called under normal conditions, the program continues
          but will eventually exit with EXIT_FAILURE.
 
          If being called by exit(), the program is failing. */
 
-      return EXIT_FAILURE;
+      ret_code = EXIT_FAILURE;
     }
   }
 
-  return EXIT_SUCCESS;
+  return ret_code;
 }
 
 void
