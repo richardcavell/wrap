@@ -47,39 +47,39 @@ static option_ht option_line_length_helptext,
 struct parameter_type
 {
   const char *short_name, *long_name;
-  option_ht *ht;
   option_fn *fn;
+  option_ht *ht;
 };
 
 static const struct parameter_type parameters[] =
 {
   { "-l=", "--line-length=",
-    option_line_length_helptext,
-    option_line_length } ,
+    option_line_length,
+    option_line_length_helptext } ,
 
   { "-a",  "--always-hyphenate",
-    option_always_hyphenate_helptext,
-    option_always_hyphenate } ,
+    option_always_hyphenate,
+    option_always_hyphenate_helptext } ,
 
   { "-k",  "--line-break",
-    option_line_break_helptext,
-    option_line_break } ,
+    option_line_break,
+    option_line_break_helptext } ,
 
   { "-s=", "--stops=",
-    option_stops_helptext,
-    option_stops } ,
+    option_stops,
+    option_stops_helptext } ,
 
   { "-b=", "--buffer-size=", 
-    option_buffer_size_helptext,
-    option_buffer_size } ,
+    option_buffer_size,
+    option_buffer_size_helptext } ,
 
   { "-h",  "--help",
-    print_help_helptext,
-    print_help } ,
+    print_help,
+    print_help_helptext } ,
 
   { "-v",  "--version",
-    print_version_helptext,
-    print_version } ,
+    print_version,
+    print_version_helptext } ,
 
   { NULL,  NULL,
     NULL,
