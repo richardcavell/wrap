@@ -106,7 +106,7 @@ get_options(int argc, char *argv[])
   while (*++argv)
   {
     const struct parameter_type *param = parameters;
-    int is_file(const char *arg);
+    int is_file(const char *arg); /* extern'd in options.h */
     int matched = 0;
 
     if (is_file(*argv))
@@ -118,7 +118,7 @@ get_options(int argc, char *argv[])
     for (; !matched && param->short_name; ++param)
     {
       matched =    find_match(param->short_name, *argv, param->fn, &options)
-                || find_match(param->long_name, *argv, param->fn, &options);
+                || find_match(param->long_name,  *argv, param->fn, &options);
     }
 
     if (!matched)
