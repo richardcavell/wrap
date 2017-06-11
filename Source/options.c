@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
+#include <errno.h>
 
 #include "config.h"
 
@@ -151,9 +152,9 @@ is_file(const char *arg)
   return (arg[0] == hyphen) ? 0 : 1;
 }
 
-static unsigned int get_ui(const char *param_remainder,
-                           const char *param_match,
-                           unsigned int min, unsigned int max);
+static unsigned long int get_ul(const char *param_remainder,
+                                const char *param_match,
+                                unsigned long int min, unsigned long int max);
 
 static void check_param_finished(const char *param_match,
                                  const char *param_remainder);
@@ -162,8 +163,9 @@ static void
 option_line_length(const char *param_match, const char *param_remainder,
               struct options_type *options)
 {
-  options->line_length = get_ui(param_remainder, param_match,
-                               LENGTH_MIN, LENGTH_MAX); /* macros from config.h */
+  options->line_length = (unsigned int)
+                         get_ul(param_remainder, param_match,
+                         LENGTH_MIN, LENGTH_MAX); /* macros from config.h */
 }
 
 static void
@@ -187,16 +189,17 @@ static void
 option_stops(const char *param_match, const char *param_remainder,
              struct options_type *options)
 {
-  options->stops = get_ui(param_remainder, param_match,
-                         STOPS_MIN, STOPS_MAX); /* macros from config.h */
+  options->stops = (unsigned int)
+                   get_ul(param_remainder, param_match,
+                   STOPS_MIN, STOPS_MAX); /* macros from config.h */
 }
 
 static void
 option_buffer_size(const char *param_match, const char *param_remainder,
                    struct options_type *options)
 {
-  assert(BUFFER_MAX <= UINT_MAX); /* macros are from config.h */
-  options->buffer_size = get_ui(param_remainder, param_match,
+  assert(BUFFER_MAX <= ULONG_MAX); /* BUFFER_ macros are from config.h */
+  options->buffer_size = get_ul(param_remainder, param_match,
                                 BUFFER_MIN, BUFFER_MAX);
 }
 
@@ -246,15 +249,17 @@ print_version(const char *param_match, const char *param_remainder,
   exit(EXIT_SUCCESS);
 }
 
-static unsigned int
-get_ui(const char *param_remainder, const char *param_match,
-       unsigned int min, unsigned int max)
+static unsigned long int
+get_ul(const char *param_remainder, const char *param_match,
+       unsigned long int min, unsigned long int max)
 {
   char *endptr = NULL;
-  long int l = strtol(param_remainder, &endptr, 0);
+  int neg = (strtol(param_remainder, NULL, 0) < 0);
+  unsigned long int l = strtoul(param_remainder, &endptr, 0);
 
-  assert(min < LONG_MAX);
-  assert(max < LONG_MAX);
+  if (neg)
+    fail_msg("Error: Value given to %s must be positive\n",
+                                    param_match);
 
   if (endptr && *endptr)
     fail_msg("Error: Value given to %s must be a number\n",
@@ -262,9 +267,13 @@ get_ui(const char *param_remainder, const char *param_match,
 
   if (l < min || l > max)
     fail_msg("Error: Value to %s must be between %u and %u\n",
-                              param_match, min, max);
+                              param_match,       min,   max);
 
-  return (unsigned int) l;
+  if ((l == 0) && errno)
+    fail_msg("Error: Cannot understand the number given to %s. Error %i\n",
+                                                  param_match,       errno);
+
+  return l;
 }
 
 static void
