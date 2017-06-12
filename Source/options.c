@@ -257,6 +257,7 @@ get_ul(const char *param_remainder, const char *param_match,
   int neg = (strtol(param_remainder, NULL, 0) < 0);
   unsigned long int l = strtoul(param_remainder, &endptr, 0);
 
+  /* This won't catch all such errors, but it's still worth doing */
   if (neg)
     fail_msg("Error: Value given to %s must be positive\n",
                                     param_match);
