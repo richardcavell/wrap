@@ -160,9 +160,11 @@ static void check_param_finished(const char *param_match,
                                  const char *param_remainder);
 
 static void
-option_line_length(const char *param_match, const char *param_remainder,
-              struct options_type *options)
+option_line_length(const char *param_match,
+                   const char *param_remainder,
+                   struct options_type *options)
 {
+  assert(LENGTH_MIN > 0 && LENGTH_MAX <= UINT_MAX);
   options->line_length = (unsigned int)
                          get_ul(param_remainder, param_match,
                          LENGTH_MIN, LENGTH_MAX); /* macros from config.h */
@@ -178,7 +180,8 @@ option_always_hyphenate(const char *param_match,
 }
 
 static void
-option_line_break(const char *param_match, const char *param_remainder,
+option_line_break(const char *param_match,
+                  const char *param_remainder,
                   struct options_type *options)
 {
   check_param_finished(param_match, param_remainder);
@@ -189,6 +192,7 @@ static void
 option_stops(const char *param_match, const char *param_remainder,
              struct options_type *options)
 {
+  assert(STOPS_MIN > 0 && STOPS_MAX < UINT_MAX);
   options->stops = (unsigned int)
                    get_ul(param_remainder, param_match,
                    STOPS_MIN, STOPS_MAX); /* macros from config.h */
@@ -198,9 +202,9 @@ static void
 option_buffer_size(const char *param_match, const char *param_remainder,
                    struct options_type *options)
 {
-  assert(BUFFER_MAX <= ULONG_MAX); /* BUFFER_ macros are from config.h */
+  assert(BUFFER_MIN > 0 && BUFFER_MAX <= ULONG_MAX);
   options->buffer_size = get_ul(param_remainder, param_match,
-                                BUFFER_MIN, BUFFER_MAX);
+                                BUFFER_MIN, BUFFER_MAX); /* from config.h */
 }
 
 static void
