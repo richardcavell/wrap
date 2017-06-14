@@ -18,4 +18,4 @@ It is licensed to you under the MIT License.
 
 To build with GNU Make, type "make".  To run, run
 the "wrap" program in the top-level directory.  To
-see the options, run "wrap --help". 
+see the options, run "wrap --help".

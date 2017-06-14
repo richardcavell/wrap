@@ -7,6 +7,7 @@
 #include <string.h>
 #include <assert.h>
 #include <errno.h>
+#include <limits.h>
 
 #include "config.h"
 
@@ -210,7 +211,7 @@ option_buffer_size(const char *param_match, const char *param_remainder,
 static void
 print_version_text(void)
 {
-  xprintf(VERSION_TEXT);
+  xprintf(VERSION_TEXT); /* VERSION_TEXT is in config.h */
 }
 
 static void
