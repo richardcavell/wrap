@@ -219,7 +219,7 @@ print_help(const char *param_match, const char *param_remainder,
            struct options_type *options)
 {
   const struct parameter_type *param = parameters;
-  char help_text[HELP_TEXT_SCRATCH_SIZE];
+  char help_text[HELP_TEXT_SCRATCH_SIZE]; /* config.h */
 
   check_param_finished(param_match, param_remainder);
 
@@ -230,8 +230,9 @@ print_help(const char *param_match, const char *param_remainder,
   for (;param->short_name; ++param)
   {
     /* void. Returns a payload in help_text */
-    param->ht(help_text, sizeof(help_text));
+    param->ht(help_text, sizeof help_text);
 
+    /* Macros are in config.h */
     xprintf(" %-*sor  %-*s%s\n",
               HELP_DIVIDER1, param->short_name,
               HELP_DIVIDER2, param->long_name,
