@@ -351,8 +351,8 @@ option_buffer_size_helptext(char *s, size_t len)
 {
   if (
        snprintf(s, len,
-                "Buffer size (default %u)",
-                DEFAULT_BUFFER_SIZE
+                "Buffer size (default %lu)",
+                (unsigned long) DEFAULT_BUFFER_SIZE
                )
         < 0)
 
