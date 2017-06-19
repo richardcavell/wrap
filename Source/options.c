@@ -36,7 +36,7 @@ static option_fn option_line_length,
                  print_help,
                  print_version;
 
-typedef void option_ht(char *s, size_t len);
+typedef void option_ht(char *s);
 
 static option_ht option_line_length_helptext,
                  option_always_hyphenate_helptext,
@@ -230,7 +230,7 @@ print_help(const char *param_match, const char *param_remainder,
   for (;param->short_name; ++param)
   {
     /* void. Returns a payload in help_text */
-    param->ht(help_text, sizeof help_text);
+    param->ht(help_text);
 
     /* Macros are in config.h */
     xprintf(" %-*sor  %-*s%s\n",
@@ -293,82 +293,82 @@ check_param_finished(const char *param_match, const char *param_remainder)
 }
 
 static void
-option_line_length_helptext(char *s, size_t len)
+option_line_length_helptext(char *s)
 {
   if (
-       snprintf(s, len,
+       sprintf(s,
                 "Line length (default %u)",
                 DEFAULT_LINE_LENGTH
                )
         < 0)
 
-    fail_msg("snprintf() failure in option_line_length_helptext()");
+    fail_msg("sprintf() failure in option_line_length_helptext()");
 }
 
 static void
-option_always_hyphenate_helptext(char *s, size_t len)
+option_always_hyphenate_helptext(char *s)
 {
   if (
-       snprintf(s, len,
+       sprintf(s,
                 "Fill up each line %s",
                 (DEFAULT_ALWAYS_HYPHENATE) ?
                   "(default)" : "(switches off -k)"
                )
         < 0)
 
-    fail_msg("snprintf() failure in option_always_hyphenate_helptext()");
+    fail_msg("sprintf() failure in option_always_hyphenate_helptext()");
 }
 
 static void
-option_line_break_helptext(char *s, size_t len)
+option_line_break_helptext(char *s)
 {
   if (
-       snprintf(s, len,
+       sprintf(s,
                 "Line-break after whole words %s",
                   DEFAULT_ALWAYS_HYPHENATE == 0 ?
                   "(default)" : "(switches off -a)"
                )
         < 0)
 
-    fail_msg("snprintf() failure in option_line_break_helptext()");
+    fail_msg("sprintf() failure in option_line_break_helptext()");
 }
 
 static void
-option_stops_helptext(char *s, size_t len)
+option_stops_helptext(char *s)
 {
   if (
-       snprintf(s, len,
+       sprintf(s,
                 "Tab stop distance (default %u)",
                 DEFAULT_STOPS
                )
         < 0)
 
-    fail_msg("snprintf() failure in option_stops_helptext()");
+    fail_msg("sprintf() failure in option_stops_helptext()");
 }
 
 static void
-option_buffer_size_helptext(char *s, size_t len)
+option_buffer_size_helptext(char *s)
 {
   if (
-       snprintf(s, len,
+       sprintf(s,
                 "Buffer size (default %lu)",
                 (unsigned long) DEFAULT_BUFFER_SIZE
                )
         < 0)
 
-    fail_msg("snprintf() failure in option_buffer_size_helptext()");
+    fail_msg("sprintf() failure in option_buffer_size_helptext()");
 }
 
 static void
-print_help_helptext(char *s, size_t len)
+print_help_helptext(char *s)
 {
-  if (snprintf(s, len, "Prints out this help text") < 0)
-    fail_msg("snprintf() failure in option_help_helptext()");
+  if (sprintf(s, "Prints out this help text") < 0)
+    fail_msg("sprintf() failure in option_help_helptext()");
 }
 
 static void
-print_version_helptext(char *s, size_t len)
+print_version_helptext(char *s)
 {
-  if (snprintf(s, len, "Version number") < 0)
-    fail_msg("snprintf() failure in option_version_helptext()");
+  if (sprintf(s, "Version number") < 0)
+    fail_msg("sprintf() failure in option_version_helptext()");
 }

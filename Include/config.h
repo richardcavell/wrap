@@ -24,8 +24,8 @@
 #define HELP_DIVIDER1 5
 #define HELP_DIVIDER2 22
 
-/* Right edge - left edge - 5 for prettiness + 2 for the \n and \0 */
-#define HELP_TEXT_SCRATCH_SIZE (COLS - HELP_DIVIDER2 - 5 + 2)
+/* We have to avoid buffer overruns */
+#define HELP_TEXT_SCRATCH_SIZE 200
 
 #define DEFAULT_INVOCATION "wrap"
 #define DEFAULT_ALWAYS_HYPHENATE 0
