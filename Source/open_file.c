@@ -11,32 +11,40 @@
 #include "buffer.h"
 #include "error.h"
 #include "options.h"
+#include "wrap.h"
 
 static FILE *fp;
 
 static int xclose_file(const char *fn); /* fn can be NULL */
-static void wrap_file(FILE *fp, struct buffer_type *buffer,
-                      const struct options_type *options);
 
 int
 open_file(const char *fn, struct buffer_type *buffer,
           const struct options_type *options)
 {
+  int ret_code = EXIT_SUCCESS;
+
   fp = fn ? fopen(fn, "r") : stdin;
 
-  if (!fp)
+  if (fp)
+  {
+    if (wrap_file(fp, buffer, options) /* wrap.h */
+      == EXIT_FAILURE)
+        ret_code = EXIT_FAILURE;
+
+    if (xclose_file(fn) == EXIT_FAILURE)
+        ret_code = EXIT_FAILURE;
+  }
+  else
   {
     xerror("Error: Couldn't open file %s. Error code: %d\n", fn, errno);
 
     /* The program continues but will eventually
        exit with EXIT_FAILURE */
 
-    return EXIT_FAILURE;
+    ret_code = EXIT_FAILURE;
   }
 
-  wrap_file(fp, buffer, options);
-
-  return xclose_file(fn);
+  return ret_code;
 }
 
 static FILE *fp = NULL;
@@ -79,31 +87,4 @@ int
 register_close_file(void)
 {
   return atexit(close_file);
-}
-
-static void
-wrap_file(FILE *fp, struct buffer_type *buffer,
-          const struct options_type *options)
-{
-  static int done = 0;
-
-  if (!done)
-  {
-    xprintf("Invocation: %s\n", options->invocation);
-    xprintf("File parameters: %s\n",
-            options->file_parameters ? "Yes" : "No" );
-    xprintf("Buffer text: %p\n", buffer->text);
-    xprintf("Buffer size: %lu\n", options->buffer_size);
-    xprintf("Line length: %u\n", options->line_length);
-    xprintf("Stops: %u\n", options->stops);
-    xprintf("Always hyphenate: %s\n",
-           options->always_hyphenate ? "Yes" : "No" );
-    xprintf("File pointer : %p\n", fp);
-
-    done = 1;
-  }
-  else
-  {
-    xprintf("New file pointer : %p\n", fp);
-  }
 }

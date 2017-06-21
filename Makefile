@@ -28,13 +28,15 @@ Object/buffer.o:     buffer.c buffer.h error.h options.h
 Object/error.o:      error.c error.h
 Object/open_file.o:  open_file.c open_file.h error.h options.h
 Object/options.o:    options.c options.h config.h error.h
+Object/wrap.o:       wrap.c buffer.c options.h
 
 # Some header files #include other header files
 buffer.h:            config.h options.h
 open_file.h:         buffer.h options.h
+wrap.h:              buffer.h options.h
 
 # This is the final link step for the wrap program
-wrap: main.o buffer.o error.o open_file.o options.o
+wrap: main.o buffer.o error.o open_file.o options.o wrap.o
 	@echo "Linking " $(@F)"..."
 	$(LINK.c) $^ $(OUTPUT_OPTION)
 	@echo "Executable" '"'$(@F)'"' "has been built."
@@ -53,7 +55,8 @@ OBJECT_FILES = Object/main.o\
  Object/buffer.o\
  Object/error.o\
  Object/open_file.o\
- Object/options.o
+ Object/options.o\
+ Object/wrap.o
 
 .PHONY: clean
 clean:
