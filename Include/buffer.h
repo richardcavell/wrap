@@ -10,7 +10,7 @@
 #include "config.h"
 #include "options.h"
 
-/* 
+/*
    A single object of this type will be created at the start of
    the program, and passed to anything that works with the buffer.
 */

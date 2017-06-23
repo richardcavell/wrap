@@ -10,7 +10,7 @@
   /* User-modifiable values */
 #define BUFFER_MIN 100
 #define DEFAULT_BUFFER_SIZE 1024
-#define BUFFER_MAX INT_MAX
+#define BUFFER_MAX ULONG_MAX
 
 #define COLS 80
 #define LENGTH_MIN 5
