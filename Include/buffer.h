@@ -5,6 +5,7 @@
 #ifndef BUFFER_H
 #define BUFFER_H
 
+#include <stdio.h>
 #include <stddef.h>
 
 #include "config.h"
@@ -38,5 +39,8 @@ extern struct buffer_type
 */
 
 extern int register_free_buffer(void);
+
+/* Use this in place of getchar() */
+extern int xgetchar(FILE *fp, struct buffer_type *buffer);
 
 #endif

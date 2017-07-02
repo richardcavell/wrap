@@ -44,3 +44,97 @@ free_buffer(void)
   free(text);
   text = NULL;
 }
+
+static void
+  fill(FILE *fp, struct buffer_type *buffer);
+
+static void
+  detect_empty(struct buffer_type *buffer);
+
+int
+xgetchar(FILE *fp, struct buffer_type *buffer)
+{
+  int c;
+
+  fill(fp, buffer);
+
+  if (buffer->empty)
+    return EOF;           /* Buffer and file stream are exhausted */
+
+  c = buffer->text[buffer->bufpos];
+
+  ++buffer->bufpos;
+
+  if (buffer->bufpos == buffer->buffer_size)
+    buffer->bufpos = 0;
+
+  detect_empty(buffer);
+
+  fill(fp, buffer);
+
+  return c;
+}
+
+static void
+  addchar(FILE *fp, struct buffer_type *buffer);
+
+static int
+  isfull(struct buffer_type *buffer);
+
+static void
+fill(FILE *fp, struct buffer_type *buffer)
+{
+  while (!isfull(buffer) && !feof(fp))
+    addchar(fp, buffer);
+}
+
+static int
+isfull(struct buffer_type *buffer)
+{
+  return ((buffer->empty == 0) &&
+          (buffer->bufpos == buffer->endpos));
+}
+
+static void
+detect_empty(struct buffer_type *buffer)
+{
+  if (buffer->bufpos == buffer->endpos)
+    buffer->empty = 1;
+}
+
+static void
+addchar(FILE *fp, struct buffer_type *buffer)
+{
+  const int BACKSPACE = '\b';
+  int c = fgetc(fp);
+
+  if (c == EOF)
+  {
+    /* do nothing */
+  }
+  else if (c != BACKSPACE)
+  {
+    buffer->text[buffer->endpos] = (ch_type) c;
+
+    ++buffer->endpos;
+    if (buffer->endpos == buffer->buffer_size)
+      buffer->endpos = 0;
+  }
+  else /* c == BACKSPACE */
+  {
+    if (buffer->empty)
+    {
+      xerror("Error: Buffer under-run\n");
+      /* The program continues */
+    }
+
+    if (buffer->endpos == 0)
+      buffer->endpos = buffer->buffer_size;
+
+    --buffer->endpos;
+
+    detect_empty(buffer);
+
+      /* Discard the character that has been backspaced over */
+  }
+}

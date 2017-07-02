@@ -18,14 +18,41 @@ wrap_file(FILE *fp, struct buffer_type *buffer,
  (void) buffer;
  (void) options;
 
-/*  int c;
-  static unsigned int col = 0;
+/*
+  int c;
+  int in_word = 0;
+  static unsigned int col = 0;  // persists between files
 
   while ((c = xgetchar(fp)) != EOF)
   {
     unsigned int new_col = new_column(col, c);
 
-  }*/
+
+
+    if (new_col <= line_length - 1)
+    {
+      emit(c);
+      col = new_col;
+    }
+    else if (isspace(c))
+    {
+      emit(c);
+      emit(NEWLINE);
+      col = 0;
+    }
+    else
+    {
+      assert(isprint(c));
+
+      emit(HYPHEN);
+      emit(NEWLINE);
+      emit(c);
+      col = 0;
+    }
+
+    in_word = !isspace(c);
+  }
+*/
 
  return EXIT_SUCCESS;
 }
