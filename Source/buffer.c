@@ -22,7 +22,7 @@ create_buffer(const struct options_type *options)
     fail_msg("Error: Couldn't acquire memory for the buffer\n");
 
   buffer.buffer_size = options->buffer_size;
-  buffer.bufpos = 0;
+  buffer.startpos = 0;
   buffer.endpos = 0;
   buffer.empty = 1;
 
@@ -61,12 +61,12 @@ xgetchar(FILE *fp, struct buffer_type *buffer)
   if (buffer->empty)
     return EOF;           /* Buffer and file stream are exhausted */
 
-  c = buffer->text[buffer->bufpos];
+  c = buffer->text[buffer->startpos];
 
-  ++buffer->bufpos;
+  ++buffer->startpos;
 
-  if (buffer->bufpos == buffer->buffer_size)
-    buffer->bufpos = 0;
+  if (buffer->startpos == buffer->buffer_size)
+    buffer->startpos = 0;
 
   detect_empty(buffer);
 
@@ -92,13 +92,13 @@ static int
 isfull(struct buffer_type *buffer)
 {
   return ((buffer->empty == 0) &&
-          (buffer->bufpos == buffer->endpos));
+          (buffer->startpos == buffer->endpos));
 }
 
 static void
 detect_empty(struct buffer_type *buffer)
 {
-  if (buffer->bufpos == buffer->endpos)
+  if (buffer->startpos == buffer->endpos)
     buffer->empty = 1;
 }
 
