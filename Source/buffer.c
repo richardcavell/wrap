@@ -29,7 +29,8 @@ create_buffer(const struct options_type *options)
   return buffer;
 }
 
-static ch_type *text = NULL;  /* This is only for our atexit()-registered fn */
+  /* This is only for our atexit()-registered fn */
+static ch_type *text = NULL;
 
 int
 register_free_buffer(void)
@@ -95,6 +96,7 @@ isfull(struct buffer_type *buffer)
           (buffer->startpos == buffer->endpos));
 }
 
+  /* Can only be used after a char has been removed */
 static void
 detect_empty(struct buffer_type *buffer)
 {
@@ -102,6 +104,7 @@ detect_empty(struct buffer_type *buffer)
     buffer->empty = 1;
 }
 
+  /* assumes that buffer is not full */
 static void
 addchar(FILE *fp, struct buffer_type *buffer)
 {
