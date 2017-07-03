@@ -5,7 +5,6 @@
 == To do ==
 Get comments on my code
 Add info option
-Implement - to read from stdin
 Add option for error on buffer underrun
 
 == Considering ==

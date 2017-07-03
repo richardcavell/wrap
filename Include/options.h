@@ -17,8 +17,9 @@ struct options_type
   int always_hyphenate; /* Either 0 or 1 */
 };
 
-/* Returns 0 or 1 */
-extern int is_file(const char *arg);
+/* These two return 0 or 1 */
+extern int is_filename(const char *arg);
+extern int is_stdin(const char *arg);
 
 /*
    Call this function below once, at the start of the program,

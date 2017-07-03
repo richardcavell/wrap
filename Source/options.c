@@ -108,10 +108,10 @@ get_options(int argc, char *argv[])
   while (*++argv)
   {
     const struct parameter_type *param = parameters;
-    int is_file(const char *arg); /* extern'd in options.h */
+    int is_filename(const char *arg); /* extern'd in options.h */
     int matched = 0;
 
-    if (is_file(*argv))
+    if (is_filename(*argv))
     {
       options.file_parameters = 1;
       continue;
@@ -147,10 +147,16 @@ find_match(const char *text, const char *arg, option_fn *fn,
 
 
 int
-is_file(const char *arg)
+is_filename(const char *arg)
 {
   const char hyphen = '-';
   return (arg[0] == hyphen) ? 0 : 1;
+}
+
+int
+is_stdin(const char *arg)
+{
+  return (strcmp("-", arg) == 0) ? 1 : 0;
 }
 
 static unsigned long int get_ul(const char *param_remainder,
@@ -239,6 +245,9 @@ print_help(const char *param_match, const char *param_remainder,
               help_text
            );
   }
+
+  xprintf("If no filenames are given, standard input will be used.\n");
+  xprintf("If filenames are given, use a single - to read from standard input.\n");
 
   exit(EXIT_SUCCESS);
 }

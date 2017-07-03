@@ -27,7 +27,7 @@ main(int argc, char *argv[])
   if (options.file_parameters)
   {
     while (*++argv)
-      if (is_file(*argv))    /*  options.h  */
+      if (is_filename(*argv))    /*  options.h  */
       {
                        /* open_file.h */
         int ret_code = open_file(*argv, &buffer, &options);
@@ -35,6 +35,14 @@ main(int argc, char *argv[])
         if (ret_code != EXIT_SUCCESS)
           exit_code = ret_code;
       }
+      else if (is_stdin(*argv))    /* options.h */
+      {
+        int ret_code = open_file(NULL, &buffer, &options);
+
+        if (ret_code != EXIT_SUCCESS)
+          exit_code = ret_code;
+      }
+      /* else it is an option, and we ignore it */
   }
   else
     exit_code = open_file(NULL, &buffer, &options);    /* open_file.h */
