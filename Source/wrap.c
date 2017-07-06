@@ -14,9 +14,14 @@ int
 wrap_file(FILE *fp, struct buffer_type *buffer,
           const struct options_type *options)
 {
- (void) fp;
- (void) buffer;
- (void) options;
+  int c;
+
+  (void) fp;
+  (void) buffer;
+  (void) options;
+
+  while ((c = xgetchar(fp, buffer)) != EOF)
+    putchar(c);
 
 /*
   int c;

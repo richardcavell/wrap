@@ -119,6 +119,8 @@ addchar(FILE *fp, struct buffer_type *buffer)
   {
     buffer->text[buffer->endpos] = (ch_type) c;
 
+    buffer->empty = 0;
+
     ++buffer->endpos;
     if (buffer->endpos == buffer->buffer_size)
       buffer->endpos = 0;
