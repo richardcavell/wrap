@@ -28,7 +28,7 @@ Object/buffer.o:     buffer.c buffer.h error.h options.h
 Object/error.o:      error.c error.h
 Object/open_file.o:  open_file.c open_file.h error.h options.h
 Object/options.o:    options.c options.h config.h error.h
-Object/wrap.o:       wrap.c buffer.c options.h
+Object/wrap.o:       wrap.c wrap.h buffer.c options.h
 
 # Some header files #include other header files
 buffer.h:            config.h options.h
