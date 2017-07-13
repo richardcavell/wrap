@@ -10,7 +10,7 @@
 #include "options.h"
 
 static void
-main_wrap(const char *fname, struct buffer_type *buffer,
+main_process_fname(const char *fname, struct buffer_type *buffer,
           const struct options_type *options, int *exit_code);
 
 int
@@ -29,10 +29,10 @@ main(int argc, char *argv[])
     /* error.h */ fail_msg("Error: Couldn't register atexit function\n");
 
   if (options.file_parameters == 0)
-    main_wrap(NULL, &buffer, &options, &exit_code);
+    main_process_fname(NULL, &buffer, &options, &exit_code);
   else
     while (*++argv)
-      main_wrap(*argv, &buffer, &options, &exit_code);
+      main_process_fname(*argv, &buffer, &options, &exit_code);
 
   /* free_buffer() will be called at exit */
 
@@ -40,7 +40,7 @@ main(int argc, char *argv[])
 }
 
 static void
-main_wrap(const char *fname, struct buffer_type *buffer,
+main_process_fname(const char *fname, struct buffer_type *buffer,
           const struct options_type *options, int *exit_code)
 {
   if (is_stdin(fname))   /* options.h */
