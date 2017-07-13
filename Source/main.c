@@ -9,6 +9,10 @@
 #include "open_file.h"
 #include "options.h"
 
+static void
+main_wrap(const char *fname, struct buffer_type *buffer,
+          const struct options_type *options, int *exit_code);
+
 int
 main(int argc, char *argv[])
 {
@@ -27,27 +31,33 @@ main(int argc, char *argv[])
   if (options.file_parameters)
   {
     while (*++argv)
+    {
       if (is_filename(*argv))    /*  options.h  */
       {
-                       /* open_file.h */
-        int ret_code = open_file(*argv, &buffer, &options);
-
-        if (ret_code != EXIT_SUCCESS)
-          exit_code = ret_code;
+        main_wrap(*argv, &buffer, &options, &exit_code);
       }
       else if (is_stdin(*argv))    /* options.h */
       {
-        int ret_code = open_file(NULL, &buffer, &options);
-
-        if (ret_code != EXIT_SUCCESS)
-          exit_code = ret_code;
+        main_wrap(NULL, &buffer, &options, &exit_code);
       }
       /* else it is an option, and we ignore it */
+    }
   }
   else
-    exit_code = open_file(NULL, &buffer, &options);    /* open_file.h */
+    main_wrap(NULL, &buffer, &options, &exit_code);
 
   /* free_buffer() will be called at exit */
 
   return exit_code;
+}
+
+static void
+main_wrap(const char *fname, struct buffer_type *buffer,
+          const struct options_type *options, int *exit_code)
+{
+                 /* open_file.h */
+  int ret_code = open_file(fname, buffer, options);
+
+  if (ret_code != EXIT_SUCCESS)
+    *exit_code = ret_code;
 }
