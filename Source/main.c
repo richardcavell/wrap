@@ -28,23 +28,11 @@ main(int argc, char *argv[])
   if (register_free_buffer() || register_close_file())
     /* error.h */ fail_msg("Error: Couldn't register atexit function\n");
 
-  if (options.file_parameters)
-  {
-    while (*++argv)
-    {
-      if (is_filename(*argv))    /*  options.h  */
-      {
-        main_wrap(*argv, &buffer, &options, &exit_code);
-      }
-      else if (is_stdin(*argv))    /* options.h */
-      {
-        main_wrap(NULL, &buffer, &options, &exit_code);
-      }
-      /* else it is an option, and we ignore it */
-    }
-  }
-  else
+  if (options.file_parameters == 0)
     main_wrap(NULL, &buffer, &options, &exit_code);
+  else
+    while (*++argv)
+      main_wrap(*argv, &buffer, &options, &exit_code);
 
   /* free_buffer() will be called at exit */
 
@@ -55,9 +43,14 @@ static void
 main_wrap(const char *fname, struct buffer_type *buffer,
           const struct options_type *options, int *exit_code)
 {
-                 /* open_file.h */
-  int ret_code = open_file(fname, buffer, options);
+  if (is_stdin(fname))   /* options.h */
+    fname = NULL;
 
-  if (ret_code != EXIT_SUCCESS)
-    *exit_code = ret_code;
+  if (fname == NULL || is_filename(fname))             /* options.h */
+  {
+    int ret_code = open_file(fname, buffer, options);  /* open_file.h */
+
+    if (ret_code != EXIT_SUCCESS)
+      *exit_code = ret_code;
+  }
 }

@@ -156,7 +156,7 @@ is_filename(const char *arg)
 int
 is_stdin(const char *arg)
 {
-  return (strcmp("-", arg) == 0) ? 1 : 0;
+  return (arg && strcmp("-", arg) == 0) ? 1 : 0;
 }
 
 static unsigned long int get_ul(const char *param_remainder,
