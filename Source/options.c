@@ -11,8 +11,8 @@
 
 #include "config.h"
 
-#include "error.h"
 #include "options.h"
+#include "output.h"
 
 static const struct options_type default_options =
 {

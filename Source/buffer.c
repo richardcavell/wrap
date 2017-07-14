@@ -6,8 +6,8 @@
 
 #include "buffer.h"
 
-#include "error.h"
 #include "options.h"
+#include "output.h"
 
 static ch_type *text;
 

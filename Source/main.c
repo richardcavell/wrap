@@ -5,9 +5,9 @@
 #include <stdlib.h>
 
 #include "buffer.h"
-#include "error.h"
 #include "open_file.h"
 #include "options.h"
+#include "output.h"
 
 static void
 main_process_fname(const char *fname, struct buffer_type *buffer,
@@ -26,7 +26,7 @@ main(int argc, char *argv[])
 
         /* buffer.h */            /* open_file.h */
   if (register_free_buffer() || register_close_file())
-    /* error.h */ fail_msg("Error: Couldn't register atexit function\n");
+    /* output.h */ fail_msg("Error: Couldn't register atexit function\n");
 
   if (options.file_parameters == 0)
     main_process_fname(NULL, &buffer, &options, &exit_code);
