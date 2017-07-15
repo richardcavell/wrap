@@ -6,6 +6,7 @@
 Get comments on my code
 Add info option
 Add option for error on buffer underrun
+Add license option
 
 == Considering ==
 Consider using getopt to do the grunt work
