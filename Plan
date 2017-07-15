@@ -3,13 +3,11 @@
 # Plan
 
 == To do ==
-Get comments on my code
 Add info option
 Add option for error on buffer underrun
 Add license option
+Get comments on my code
 
 == Considering ==
-Consider using getopt to do the grunt work
 Change #defines to const ints
 Rename config.h to something else
-Find a type that is more suitable for bufpos/endpos in buffer.h
