@@ -5,7 +5,7 @@
 #include <stdlib.h>
 
 #include "buffer.h"
-#include "open_file.h"
+#include "file.h"
 #include "options.h"
 #include "output.h"
 
@@ -24,7 +24,7 @@ main(int argc, char *argv[])
   struct buffer_type buffer
     = create_buffer(&options);           /* buffer.h */
 
-        /* buffer.h */            /* open_file.h */
+        /* buffer.h */            /* file.h */
   if (register_free_buffer() || register_close_file())
     /* output.h */ fail_msg("Error: Couldn't register atexit function\n");
 
@@ -48,7 +48,7 @@ main_process_fname(const char *fname, struct buffer_type *buffer,
 
   if (fname == NULL || is_filename(fname))             /* options.h */
   {
-    int ret_code = open_file(fname, buffer, options);  /* open_file.h */
+    int ret_code = open_file(fname, buffer, options);  /* file.h */
 
     if (ret_code != EXIT_SUCCESS)
       *exit_code = ret_code;

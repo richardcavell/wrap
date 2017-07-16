@@ -1,9 +1,9 @@
 /* Wrap by Richard Cavell v1.0 */
 /* Copyright (c) 2017 Richard John Foster Cavell */
-/* open_file.h */
+/* file.h */
 
-#ifndef OPEN_FILE_H
-#define OPEN_FILE_H
+#ifndef FILE_H
+#define FILE_H
 
 #include "buffer.h"
 #include "options.h"

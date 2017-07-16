@@ -1,12 +1,12 @@
 /* Wrap by Richard Cavell v1.0 */
 /* Copyright (c) 2017 Richard John Foster Cavell */
-/* open_file.c */
+/* file.c */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
 
-#include "open_file.h"
+#include "file.h"
 
 #include "buffer.h"
 #include "options.h"
