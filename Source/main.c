@@ -47,10 +47,5 @@ main_process_fname(const char *fname, struct buffer_type *buffer,
     fname = NULL;
 
   if (fname == NULL || is_filename(fname))             /* options.h */
-  {
-    int ret_code = open_file(fname, buffer, options);  /* file.h */
-
-    if (ret_code != EXIT_SUCCESS)
-      *exit_code = ret_code;
-  }
+    process_file(fname, buffer, options, exit_code);   /* file.h */
 }

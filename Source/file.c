@@ -17,22 +17,20 @@ static FILE *fp;
 
 static int xclose_file(const char *fn); /* fn can be NULL */
 
-int
-open_file(const char *fn, struct buffer_type *buffer,
-          const struct options_type *options)
+void
+process_file(const char *fn, struct buffer_type *buffer,
+          const struct options_type *options, int *exit_code)
 {
-  int ret_code = EXIT_SUCCESS;
-
   fp = fn ? fopen(fn, "r") : stdin;
 
   if (fp)
   {
     if (wrap_file(fp, buffer, options) /* wrap.h */
       == EXIT_FAILURE)
-        ret_code = EXIT_FAILURE;
+        *exit_code = EXIT_FAILURE;
 
     if (xclose_file(fn) == EXIT_FAILURE)
-        ret_code = EXIT_FAILURE;
+        *exit_code = EXIT_FAILURE;
   }
   else
   {
@@ -41,10 +39,8 @@ open_file(const char *fn, struct buffer_type *buffer,
     /* The program continues but will eventually
        exit with EXIT_FAILURE */
 
-    ret_code = EXIT_FAILURE;
+    *exit_code = EXIT_FAILURE;
   }
-
-  return ret_code;
 }
 
 static FILE *fp = NULL;
