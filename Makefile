@@ -58,6 +58,8 @@ OBJECT_FILES = Object/main.o\
  Object/output.o\
  Object/wrap.o
 
+# If your rm command doesn't have -v, you might remove the @ from
+# that command below
 .PHONY: clean
 clean:
 	@echo "Removing object files..."
