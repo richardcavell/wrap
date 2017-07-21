@@ -13,7 +13,7 @@
 #include "output.h"
 #include "wrap.h"
 
-static FILE *fp;
+static FILE *fp;   /* declaration only - defined below */
 
 static int xclose_file(const char *fn); /* fn can be NULL */
 
