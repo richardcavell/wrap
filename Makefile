@@ -25,7 +25,7 @@ all: wrap Readme.txt
 # Dependencies for each of the object files
 Object/main.o:       main.c buffer.h file.h options.h output.h
 Object/buffer.o:     buffer.c buffer.h options.h output.h
-Object/file.o:       file.c file.h options.h output.h
+Object/file.o:       file.c file.h buffer.h options.h output.h wrap.h
 Object/options.o:    options.c options.h config.h output.h
 Object/output.o:     output.c output.h
 Object/wrap.o:       wrap.c wrap.h buffer.c options.h
