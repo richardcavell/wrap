@@ -21,7 +21,7 @@ void
 process_file(const char *fn, struct buffer_type *buffer,
           const struct options_type *options, int *exit_code)
 {
-  fp = fn ? fopen(fn, "r") : stdin;
+  fp = (fn ? fopen(fn, "r") : stdin);
 
   if (fp)
   {
