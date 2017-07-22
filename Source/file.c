@@ -15,7 +15,7 @@
 
 static FILE *fp;   /* declaration only - defined below */
 
-static int xclose_file(const char *fn); /* fn can be NULL */
+static int _close_file(const char *fn); /* fn can be NULL */
 
 void
 process_file(const char *fn, struct buffer_type *buffer,
@@ -29,7 +29,7 @@ process_file(const char *fn, struct buffer_type *buffer,
       == EXIT_FAILURE)
         *exit_code = EXIT_FAILURE;
 
-    if (xclose_file(fn) == EXIT_FAILURE)
+    if (_close_file(fn) == EXIT_FAILURE)
         *exit_code = EXIT_FAILURE;
   }
   else
@@ -46,7 +46,7 @@ process_file(const char *fn, struct buffer_type *buffer,
 static FILE *fp = NULL;
 
 static int
-xclose_file(const char *fn)
+_close_file(const char *fn)
 {
   if (fp != NULL && fp != stdin)
   {
@@ -76,7 +76,7 @@ xclose_file(const char *fn)
 void
 close_file(void)
 {
-  (void) xclose_file(NULL);
+  (void) _close_file(NULL);
 }
 
 int
