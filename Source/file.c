@@ -25,7 +25,7 @@ process_file(const char *fn, struct buffer_type *buffer,
 
   if (fp)
   {
-    if (wrap_file(fp, buffer, options) /* wrap.h */
+    if (wrap(fp, buffer, options) /* wrap.h */
       == EXIT_FAILURE)
         *exit_code = EXIT_FAILURE;
 

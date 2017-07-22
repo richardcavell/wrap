@@ -11,8 +11,8 @@
 #include "options.h"
 
 int
-wrap_file(FILE *fp, struct buffer_type *buffer,
-          const struct options_type *options)
+wrap(FILE *fp, struct buffer_type *buffer,
+     const struct options_type *options)
 {
   int c;
 
