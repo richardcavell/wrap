@@ -25,6 +25,9 @@ process_file(const char *fn, struct buffer_type *buffer,
 
   if (fp)
   {
+    /* If *exit_code is set to EXIT_FAILURE, the program continues
+       but will eventually exit with EXIT_FAILURE */
+
     if (wrap(fp, buffer, options) /* wrap.h */
       == EXIT_FAILURE)
         *exit_code = EXIT_FAILURE;
@@ -35,15 +38,14 @@ process_file(const char *fn, struct buffer_type *buffer,
   else
   {
     xerror("Error: Couldn't open file %s. Error code: %d\n", fn, errno);
-
-    /* The program continues but will eventually
-       exit with EXIT_FAILURE */
-
     *exit_code = EXIT_FAILURE;
   }
 }
 
 static FILE *fp = NULL;
+
+/* This can be called either by process_file() (under normal conditions),
+   or by exit() (meaning the program is failing) */
 
 static int
 _close_file(const char *fn)
@@ -60,11 +62,6 @@ _close_file(const char *fn)
               fn ? " " : "",
               fn ? fn : "",
               errno);
-
-      /* If being called under normal conditions, the program continues
-         but will eventually exit with EXIT_FAILURE.
-
-         If being called by exit(), the program is failing. */
 
       return EXIT_FAILURE;
     }
