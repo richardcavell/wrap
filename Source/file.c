@@ -15,7 +15,8 @@
 
 static FILE *fp;   /* declaration only - defined below */
 
-static int _close_file(const char *fn); /* fn can be NULL */
+static void _close_file(const char *fn,       /* fn can be NULL */
+                        int *exit_code);      /* exit_code can be NULL */
 
 void
 process_file(const char *fn, struct buffer_type *buffer,
@@ -32,8 +33,7 @@ process_file(const char *fn, struct buffer_type *buffer,
       == EXIT_FAILURE)
         *exit_code = EXIT_FAILURE;
 
-    if (_close_file(fn) == EXIT_FAILURE)
-        *exit_code = EXIT_FAILURE;
+    _close_file(fn, exit_code);
   }
   else
   {
@@ -47,8 +47,8 @@ static FILE *fp = NULL;
 /* This can be called either by process_file() (under normal conditions),
    or by exit() (meaning the program is failing) */
 
-static int
-_close_file(const char *fn)
+static void
+_close_file(const char *fn, int *exit_code)
 {
   if (fp != NULL && fp != stdin)
   {
@@ -63,17 +63,16 @@ _close_file(const char *fn)
               fn ? fn : "",
               errno);
 
-      return EXIT_FAILURE;
+      if (exit_code)
+        *exit_code = EXIT_FAILURE;
     }
   }
-
-  return EXIT_SUCCESS;
 }
 
 void
 close_file(void)
 {
-  (void) _close_file(NULL);
+  _close_file(NULL, NULL);
 }
 
 int
