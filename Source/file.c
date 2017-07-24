@@ -42,6 +42,18 @@ process_file(const char *fn, struct buffer_type *buffer,
   }
 }
 
+void
+close_file(void)
+{
+  _close_file(NULL, NULL);
+}
+
+int
+register_close_file(void)
+{
+  return atexit(close_file);
+}
+
 static FILE *fp = NULL;
 
 /* This can be called either by process_file() (under normal conditions),
@@ -58,25 +70,15 @@ _close_file(const char *fn, int *exit_code)
 
     if (close_code == EOF)
     {
-      xerror( "Error: Couldn't close file%s%s. Error code: %d\n",
-              fn ? " " : "",
-              fn ? fn : "",
-              errno);
+      if (fn)
+        xerror( "Error: Couldn't close file %s. Error code: %d\n",
+                fn, errno);
+      else
+        xerror( "Error: Couldn't close file. Error code: %d\n",
+                errno);
 
       if (exit_code)
         *exit_code = EXIT_FAILURE;
     }
   }
-}
-
-void
-close_file(void)
-{
-  _close_file(NULL, NULL);
-}
-
-int
-register_close_file(void)
-{
-  return atexit(close_file);
 }
