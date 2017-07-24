@@ -42,7 +42,7 @@ process_file(const char *fn, struct buffer_type *buffer,
   }
 }
 
-void
+static void
 close_file(void)
 {
   _close_file(NULL, NULL);
