@@ -39,16 +39,18 @@ process_file(const char *fn, struct buffer_type *buffer,
   }
 }
 
-static void
-close_file(void)
-{
-  _close_file(NULL, NULL);
-}
+static void close_file(void);
 
 int
 register_close_file(void)
 {
   return atexit(close_file);
+}
+
+static void
+close_file(void)
+{
+  _close_file(NULL, NULL);
 }
 
 static FILE *fp = NULL;
