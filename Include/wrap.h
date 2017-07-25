@@ -10,7 +10,7 @@
 #include "buffer.h"
 #include "options.h"
 
-extern int
+extern void
 wrap(FILE *fp, struct buffer_type *buffer,
      const struct options_type *options);
 

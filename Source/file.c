@@ -24,15 +24,12 @@ process_file(const char *fn, struct buffer_type *buffer,
 {
   fp = (fn ? fopen(fn, "r") : stdin);
 
-  if (fp)
-  {
     /* If *exit_code is set to EXIT_FAILURE, the program continues
        but will eventually exit with EXIT_FAILURE */
 
-    if (wrap(fp, buffer, options) /* wrap.h */
-      == EXIT_FAILURE)
-        *exit_code = EXIT_FAILURE;
-
+  if (fp)
+  {
+    wrap(fp, buffer, options);  /* wrap.h */
     _close_file(fn, exit_code);
   }
   else

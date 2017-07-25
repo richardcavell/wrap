@@ -10,7 +10,7 @@
 #include "buffer.h"
 #include "options.h"
 
-int
+void
 wrap(FILE *fp, struct buffer_type *buffer,
      const struct options_type *options)
 {
@@ -58,6 +58,4 @@ wrap(FILE *fp, struct buffer_type *buffer,
     in_word = !isspace(c);
   }
 */
-
- return EXIT_SUCCESS;
 }
