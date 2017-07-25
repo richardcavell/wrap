@@ -9,7 +9,7 @@
 #include "options.h"
 #include "output.h"
 
-static ch_type *text;
+static ch_type *text; /* declaration only - defined below */
 
 struct buffer_type
 create_buffer(const struct options_type *options)
@@ -29,17 +29,18 @@ create_buffer(const struct options_type *options)
   return buffer;
 }
 
-  /* This is only for our atexit()-registered fn */
-static ch_type *text = NULL;
+static void free_buffer(void);
 
 int
 register_free_buffer(void)
 {
-  void free_buffer(void);
   return atexit(free_buffer);
 }
 
-void
+  /* This is only for our atexit()-registered fn */
+static ch_type *text = NULL;
+
+static void
 free_buffer(void)
 {
   free(text);
