@@ -31,16 +31,6 @@ xerror(const char *s, ...)
   va_end(ap);
 }
 
-static void
-xfprintf(FILE *stream, const char *s, va_list ap, const char *stream_name)
-{
-  if (vfprintf(stream, s, ap) < 0)
-  {
-    (void) fprintf(stderr, "Error: Unable to print to %s\n", stream_name);
-    exit(EXIT_FAILURE);
-  }
-}
-
 void
 fail_msg(const char *s, ...)
 {
@@ -51,4 +41,14 @@ fail_msg(const char *s, ...)
   va_end(ap);
 
   exit(EXIT_FAILURE);
+}
+
+static void
+xfprintf(FILE *stream, const char *s, va_list ap, const char *stream_name)
+{
+  if (vfprintf(stream, s, ap) < 0)
+  {
+    (void) fprintf(stderr, "Error: Unable to print to %s\n", stream_name);
+    exit(EXIT_FAILURE);
+  }
 }
