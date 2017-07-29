@@ -123,6 +123,7 @@ addchar(FILE *fp, struct buffer_type *buffer)
     buffer->empty = 0;
 
     ++buffer->endpos;
+
     if (buffer->endpos == buffer->buffer_size)
       buffer->endpos = 0;
   }
