@@ -48,10 +48,10 @@ free_buffer(void)
 }
 
 static void
-  fill(FILE *fp, struct buffer_type *buffer);
+fill(FILE *fp, struct buffer_type *buffer);
 
 static void
-  detect_empty(struct buffer_type *buffer);
+detect_empty(struct buffer_type *buffer);
 
 int
 xgetchar(FILE *fp, struct buffer_type *buffer)
@@ -78,10 +78,10 @@ xgetchar(FILE *fp, struct buffer_type *buffer)
 }
 
 static void
-  addchar(FILE *fp, struct buffer_type *buffer);
+addchar(FILE *fp, struct buffer_type *buffer);
 
 static int
-  isfull(struct buffer_type *buffer);
+isfull(struct buffer_type *buffer);
 
 static void
 fill(FILE *fp, struct buffer_type *buffer)
