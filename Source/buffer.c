@@ -134,14 +134,16 @@ addchar(FILE *fp, struct buffer_type *buffer)
       xerror("Error: Buffer under-run\n");
       /* The program continues */
     }
+    else
+    {
+      if (buffer->endpos == 0)
+        buffer->endpos = buffer->buffer_size;
 
-    if (buffer->endpos == 0)
-      buffer->endpos = buffer->buffer_size;
-
-    --buffer->endpos;
-
-    detect_empty(buffer);
+      --buffer->endpos;
 
       /* Discard the character that has been backspaced over */
+
+      detect_empty(buffer);
+    }
   }
 }
