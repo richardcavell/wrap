@@ -31,7 +31,7 @@ struct buffer_type
 */
 
 extern struct buffer_type
-    create_buffer(const struct options_type *options);
+create_buffer(const struct options_type *options);
 
 /*
    Call this at the start of the program.
