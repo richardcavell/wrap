@@ -1,4 +1,4 @@
-/* Wrap by Richard Cavell v1.0 */
+/* Wrap by Richard Cavell (under development) */
 /* Copyright (c) 2017 Richard John Foster Cavell */
 /* config.h */
 
@@ -30,7 +30,7 @@
 #define DEFAULT_INVOCATION "wrap"
 #define DEFAULT_ALWAYS_HYPHENATE 0
 
-#define VERSION_TEXT "Wrap v1.0 by Richard Cavell\n"
+#define VERSION_TEXT "Wrap (under development) by Richard Cavell\n"
 
 typedef char ch_type;
   /* End of user-modifiable values */

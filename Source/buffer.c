@@ -1,4 +1,4 @@
-/* Wrap by Richard Cavell v1.0 */
+/* Wrap by Richard Cavell (under development) */
 /* Copyright (c) 2017 Richard John Foster Cavell */
 /* buffer.c */
 

@@ -1,4 +1,4 @@
-License for Wrap v1.0
+License for Wrap (Under development)
 
 ("MIT License")
 

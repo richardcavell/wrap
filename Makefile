@@ -1,4 +1,4 @@
-# Wrap v1.0 by Richard Cavell
+# Wrap (under development) by Richard Cavell
 # Copyright (c) 2017 Richard John Foster Cavell
 # Makefile
 
