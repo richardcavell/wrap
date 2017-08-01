@@ -9,9 +9,9 @@
 #include <errno.h>
 #include <limits.h>
 
-#include "config.h"
-
 #include "options.h"
+
+#include "config.h"
 #include "output.h"
 
 static const struct options_type default_options =
