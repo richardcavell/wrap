@@ -71,7 +71,7 @@ static const struct parameter_type parameters[] =
     option_stops,
     option_stops_helptext } ,
 
-  { "-b=", "--buffer-size=", 
+  { "-b=", "--buffer-size=",
     option_buffer_size,
     option_buffer_size_helptext } ,
 
