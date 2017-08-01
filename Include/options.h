@@ -13,7 +13,7 @@ struct options_type
   int file_parameters;     /* Either 0 (absent) or 1 (present) */
   size_t buffer_size;
   unsigned int line_length;
-  unsigned int stops;
+  unsigned int stops;      /* Tab stops are every (this number) of chars */
   int always_hyphenate;    /* Either 0 or 1 */
 };
 
