@@ -151,13 +151,14 @@ int
 is_filename(const char *arg)
 {
   const char hyphen = '-';
-  return (arg[0] == hyphen) ? 0 : 1;
+  return (arg && arg[0] != hyphen);
 }
 
 int
 is_stdin(const char *arg)
 {
-  return (arg && strcmp("-", arg) == 0) ? 1 : 0;
+  const char hyphen[] = "-";
+  return (arg && strcmp(hyphen, arg) == 0);
 }
 
 static unsigned long int get_ul(const char *param_remainder,
