@@ -89,8 +89,8 @@ static const struct parameter_type parameters[] =
 };
 
 static int
-find_match(const char *text, const char *arg, option_fn *fn,
-           struct options_type *options);
+find_match(const char *param_text, const char *actual_arg,
+           option_fn *fn, struct options_type *options);
 
 struct options_type
 get_options(int argc, char *argv[])
@@ -114,32 +114,33 @@ get_options(int argc, char *argv[])
     if (is_filename(*argv) || is_stdin(*argv))
     {
       options.file_parameters = 1;
-      continue;
     }
-
-    for (; !matched && param->short_name; ++param)
+    else
     {
-      matched =    find_match(param->short_name, *argv, param->fn, &options)
-                || find_match(param->long_name,  *argv, param->fn, &options);
-    }
+      for (; !matched && param->short_name; ++param)
+      {
+        matched =    find_match(param->short_name, *argv, param->fn, &options)
+                  || find_match(param->long_name,  *argv, param->fn, &options);
+      }
 
-    if (!matched)
-      fail_msg("Error: Parameter not understood: %s\n", *argv);
+      if (!matched)
+        fail_msg("Error: Parameter not understood: %s\n", *argv);
+    }
   }
 
   return options;
 }
 
 static int
-find_match(const char *text, const char *arg, option_fn *fn,
+find_match(const char *param_text, const char *actual_arg, option_fn *fn,
                  struct options_type *options)
 {
   int matched = 0;
 
-  if (strncmp(text, arg, strlen(text)) == 0)
+  if (strncmp(param_text, actual_arg, strlen(param_text)) == 0)
   {
     matched = 1;
-    fn(text, arg + strlen(text), options);
+    fn(param_text, actual_arg + strlen(param_text), options);
   }
 
   return matched;
