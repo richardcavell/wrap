@@ -89,10 +89,10 @@ static const struct parameter_type parameters[] =
 };
 
 static void
-process_arg(const char *arg, struct options_type *options);
+find_match(const char *arg, struct options_type *options);
 
 static int
-find_match(const char *param_text, const char *actual_arg,
+attempt_match(const char *param_text, const char *actual_arg,
            option_fn *fn, struct options_type *options);
 
 struct options_type
@@ -118,7 +118,7 @@ get_options(int argc, char *argv[])
     }
     else if(!is_stdin(*argv))
     {
-      process_arg(*argv, &options);
+      find_match(*argv, &options);
     }
   }
 
@@ -126,15 +126,15 @@ get_options(int argc, char *argv[])
 }
 
 static void
-process_arg(const char *arg, struct options_type *options)
+find_match(const char *arg, struct options_type *options)
 {
   const struct parameter_type *param = parameters;
   int matched = 0;
 
   for (; !matched && param->short_name; ++param)
   {
-    matched =    find_match(param->short_name, arg, param->fn, options)
-              || find_match(param->long_name,  arg, param->fn, options);
+    matched =    attempt_match(param->short_name, arg, param->fn, options)
+              || attempt_match(param->long_name,  arg, param->fn, options);
   }
 
   if (!matched)
@@ -142,7 +142,7 @@ process_arg(const char *arg, struct options_type *options)
 }
 
 static int
-find_match(const char *param_text, const char *actual_arg, option_fn *fn,
+attempt_match(const char *param_text, const char *actual_arg, option_fn *fn,
                  struct options_type *options)
 {
   int matched = 0;
