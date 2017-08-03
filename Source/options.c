@@ -112,11 +112,11 @@ get_options(int argc, char *argv[])
   {
     int is_filename(const char *arg); /* extern'd in options.h */
 
-    if (is_filename(*argv) || is_stdin(*argv))
+    if (is_filename(*argv))
     {
       options.file_parameters = 1;
     }
-    else
+    else if(!is_stdin(*argv))
     {
       process_arg(*argv, &options);
     }
