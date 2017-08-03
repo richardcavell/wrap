@@ -88,6 +88,9 @@ static const struct parameter_type parameters[] =
     NULL }
 };
 
+static void
+process_arg(const char *arg, struct options_type *options);
+
 static int
 find_match(const char *param_text, const char *actual_arg,
            option_fn *fn, struct options_type *options);
@@ -107,9 +110,7 @@ get_options(int argc, char *argv[])
 
   while (*++argv)
   {
-    const struct parameter_type *param = parameters;
     int is_filename(const char *arg); /* extern'd in options.h */
-    int matched = 0;
 
     if (is_filename(*argv) || is_stdin(*argv))
     {
@@ -117,18 +118,26 @@ get_options(int argc, char *argv[])
     }
     else
     {
-      for (; !matched && param->short_name; ++param)
-      {
-        matched =    find_match(param->short_name, *argv, param->fn, &options)
-                  || find_match(param->long_name,  *argv, param->fn, &options);
-      }
-
-      if (!matched)
-        fail_msg("Error: Parameter not understood: %s\n", *argv);
+      process_arg(*argv, &options);
     }
   }
 
   return options;
+}
+
+static void
+process_arg(const char *arg, struct options_type *options)
+{
+  const struct parameter_type *param = parameters;
+  int matched = 0;
+  for (; !matched && param->short_name; ++param)
+  {
+    matched =    find_match(param->short_name, arg, param->fn, options)
+              || find_match(param->long_name,  arg, param->fn, options);
+  }
+
+  if (!matched)
+    fail_msg("Error: Parameter not understood: %s\n", arg);
 }
 
 static int
