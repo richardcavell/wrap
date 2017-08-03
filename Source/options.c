@@ -156,7 +156,6 @@ attempt_match(const char *param_text, const char *actual_arg, option_fn *fn,
   return matched;
 }
 
-
 int
 is_filename(const char *arg)
 {
