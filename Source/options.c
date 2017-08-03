@@ -130,6 +130,7 @@ process_arg(const char *arg, struct options_type *options)
 {
   const struct parameter_type *param = parameters;
   int matched = 0;
+
   for (; !matched && param->short_name; ++param)
   {
     matched =    find_match(param->short_name, arg, param->fn, options)
