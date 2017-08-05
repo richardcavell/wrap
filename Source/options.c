@@ -142,8 +142,8 @@ find_match(const char *arg, struct options_type *options)
 }
 
 static int
-attempt_match(const char *param_text, const char *actual_arg, option_fn *fn,
-                 struct options_type *options)
+attempt_match(const char *param_text, const char *actual_arg,
+              option_fn *fn, struct options_type *options)
 {
   int matched = 0;
 
