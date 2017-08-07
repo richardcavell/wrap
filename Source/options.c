@@ -17,7 +17,7 @@
 static const struct options_type default_options =
 {
   DEFAULT_INVOCATION,          /* config.h */
-  0,       /* file_parameters */
+  NULL,    /* filenames */
   DEFAULT_BUFFER_SIZE,         /* config.h */
   DEFAULT_LINE_LENGTH,         /* config.h */
   DEFAULT_STOPS,               /* config.h */
@@ -95,32 +95,54 @@ static int
 attempt_match(const char *param_text, const char *actual_arg,
            option_fn *fn, struct options_type *options);
 
+static int
+is_filename(const char *arg);
+
+static void
+free_filenames(void);
+
+const char *(*filenames)[];    /* declaration only - definition is below */
+
 struct options_type
 get_options(int argc, char *argv[])
 {
   struct options_type options = default_options;
+  const char **filenames_insert_pt = NULL;
+
+  options.filenames = NULL;
 
   if (argv[0])
     options.invocation = argv[0];
 
-  options.file_parameters = 0;
-
-  if (argc < 2)
-    return options;
-
-  while (*++argv)
-  {
-    int is_filename(const char *arg); /* extern'd in options.h */
-
-    if (is_filename(*argv))
+  if (argc >= 2)
+    while (*++argv)
     {
-      options.file_parameters = 1;
+      if (is_filename(*argv) || is_stdin(*argv))
+      {
+        if (options.filenames == NULL)
+        {
+          filenames =
+            options.filenames =
+              malloc((size_t) argc * sizeof(const char *));
+
+          if (atexit(free_filenames))
+            fail_msg("Couldn't register options atexit callback");
+
+          filenames_insert_pt = *options.filenames;
+        }
+
+        *filenames_insert_pt++ = *argv;
+      }
+      else
+      {
+        find_match(*argv, &options);
+        if (options.filenames == 0)
+          --argc;
+      }
     }
-    else if(!is_stdin(*argv))
-    {
-      find_match(*argv, &options);
-    }
-  }
+
+  if (filenames_insert_pt)
+     *filenames_insert_pt = NULL;
 
   return options;
 }
@@ -168,6 +190,14 @@ is_stdin(const char *arg)
 {
   const char hyphen[] = "-";
   return (arg && strcmp(hyphen, arg) == 0);
+}
+
+const char *(*filenames)[] = NULL;
+
+static void free_filenames(void)
+{
+  free(filenames);
+  filenames = NULL;
 }
 
 static unsigned long int get_ul(const char *param_remainder,

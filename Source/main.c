@@ -28,11 +28,15 @@ main(int argc, char *argv[])
   if (register_free_buffer() || register_close_file())
     /* output.h */ fail_msg("Error: Couldn't register atexit function\n");
 
-  if (options.file_parameters == 0)
+  if (options.filenames == NULL)
     main_process_fname(NULL, &buffer, &options, &exit_code);
   else
-    while (*++argv)
-      main_process_fname(*argv, &buffer, &options, &exit_code);
+  {
+    const char **fname = *(options.filenames);
+
+    while (*fname)
+      main_process_fname(*fname++, &buffer, &options, &exit_code);
+  }
 
   /* free_buffer() will be called at exit */
 
@@ -46,6 +50,5 @@ main_process_fname(const char *fname, struct buffer_type *buffer,
   if (is_stdin(fname))   /* options.h */
     fname = NULL;
 
-  if (fname == NULL || is_filename(fname))             /* options.h */
-    process_file(fname, buffer, options, exit_code);   /* file.h */
+  process_file(fname, buffer, options, exit_code);   /* file.h */
 }

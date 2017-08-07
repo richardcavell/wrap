@@ -10,15 +10,14 @@
 struct options_type
 {
   const char *invocation;  /* The name of this program, from the command line */
-  int file_parameters;     /* Either 0 (absent) or 1 (present) */
+  const char *(*filenames)[];
   size_t buffer_size;
   unsigned int line_length;
   unsigned int stops;      /* Tab stops are every (this number) of chars */
   int always_hyphenate;    /* Either 0 or 1 */
 };
 
-/* These two return 0 or 1 */
-extern int is_filename(const char *arg);
+/* This returns 0 or 1 */
 extern int is_stdin(const char *arg);
 
 /*
