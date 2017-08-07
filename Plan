@@ -9,6 +9,11 @@ Add license option
 Get comments on my code
 fail_msg() should print Error and \n automatically
 Swap buffer and options in most function calls
+Put all const things in options, non-const things in buffer
+Eliminate that second function in main.c
+Reorder struct options so that filenames go first
+create_buffer() can allocate smaller buffer if malloc() fails
+Put atexit() callbacks into their own source files
 
 == Considering ==
 Change #defines to const ints
