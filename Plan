@@ -15,6 +15,7 @@ Reorder struct options so that filenames go first
 create_buffer() can allocate smaller buffer if malloc() fails
 Put atexit() callbacks into their own source files
 Implement wrapping algorithm
+Move stdin filename check to file.c
 
 == Considering ==
 Change #defines to const ints
