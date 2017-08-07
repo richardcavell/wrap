@@ -6,8 +6,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
-#include <errno.h>
 #include <limits.h>
+#include <errno.h>
 
 #include "options.h"
 
@@ -24,79 +24,90 @@ static const struct options_type default_options =
   DEFAULT_ALWAYS_HYPHENATE     /* config.h */
 };
 
-typedef void option_fn(const char *param_match,
-                       const char *param_remainder,
-                       struct options_type *options);
+typedef void option_fn     (struct options_type *options);
+typedef void option_fn_ul  (struct options_type *options,
+                              unsigned long l);
+typedef void option_ht     (char *s);
 
-static option_fn option_line_length,
-                 option_always_hyphenate,
-                 option_line_break,
-                 option_stops,
-                 option_buffer_size,
+static option_fn
+                 always_hyphenate,
+                 line_break,
                  print_help,
                  print_version;
 
-typedef void option_ht(char *s);
+static option_fn_ul
+                 ul_line_length,
+                 ul_stops,
+                 ul_buffer_size;
 
-static option_ht option_line_length_helptext,
-                 option_always_hyphenate_helptext,
-                 option_line_break_helptext,
-                 option_stops_helptext,
-                 option_buffer_size_helptext,
-                 print_help_helptext,
-                 print_version_helptext;
+static option_ht
+                 always_hyphenate_helptext,
+                 line_break_helptext,
+                 help_helptext,
+                 version_helptext,
+
+                 line_length_helptext,
+                 stops_helptext,
+                 buffer_size_helptext;
 
 struct parameter_type
 {
-  const char *short_name, *long_name;
-  option_fn *fn;
-  option_ht *ht;
+  const char     *short_name, *long_name;
+  option_fn      *fn;
+  option_fn_ul   *fn_ul;
+  option_ht      *ht;
 };
 
 static const struct parameter_type parameters[] =
 {
-  { "-l=", "--line-length=",
+  { "l",  "line-length",
+    NULL,
     option_line_length,
-    option_line_length_helptext } ,
+    option_line_length_helptext,
+  } ,
 
-  { "-a",  "--always-hyphenate",
+  { "a",  "always-hyphenate",
     option_always_hyphenate,
-    option_always_hyphenate_helptext } ,
+    NULL,
+    option_always_hyphenate_helptext,
+  } ,
 
-  { "-k",  "--line-break",
+  { "k",  "line-break",
     option_line_break,
-    option_line_break_helptext } ,
+    NULL,
+    option_line_break_helptext,
+  } ,
 
-  { "-s=", "--stops=",
+  { "s",  "stops",
+    NULL,
     option_stops,
-    option_stops_helptext } ,
+    option_stops_helptext,
+  } ,
 
-  { "-b=", "--buffer-size=",
+  { "b",  "buffer-size",
+    NULL,
     option_buffer_size,
-    option_buffer_size_helptext } ,
+    option_buffer_size_helptext,
+  } ,
 
-  { "-h",  "--help",
+  { "h",  "help",
     print_help,
-    print_help_helptext } ,
+    NULL,
+    print_help_helptext,
+  } ,
 
-  { "-v",  "--version",
+  { "v",  "version",
     print_version,
-    print_version_helptext } ,
+    NULL,
+    print_version_helptext,
+  } ,
 
   { NULL,  NULL,
     NULL,
-    NULL }
+    NULL,
+    NULL
+  }
 };
-
-static void
-find_match(const char *arg, struct options_type *options);
-
-static int
-attempt_match(const char *param_text, const char *actual_arg,
-           option_fn *fn, struct options_type *options);
-
-static int
-is_filename(const char *arg);
 
 static void
 free_filenames(void);
@@ -117,6 +128,9 @@ get_options(int argc, char *argv[])
   if (argc >= 2)
     while (*++argv)
     {
+
+
+
       if (is_filename(*argv) || is_stdin(*argv))
       {
         if (options.filenames == NULL)
