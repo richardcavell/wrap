@@ -24,10 +24,6 @@ main(int argc, char *argv[])
   struct buffer_type buffer
     = create_buffer(&options);           /* buffer.h */
 
-        /* file.h */
-  if (register_close_file())
-    /* output.h */ fail_msg("Error: Couldn't register atexit function\n");
-
   if (options.filenames == NULL)
     main_process_fname(NULL, &buffer, &options, &exit_code);
   else

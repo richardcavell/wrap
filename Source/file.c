@@ -15,6 +15,7 @@
 
 static FILE *fp;   /* declaration only - defined below */
 
+static void close_file(void);
 static void _close_file(const char *fn,       /* fn can be NULL */
                         int *exit_code);      /* exit_code can be NULL */
 
@@ -22,13 +23,20 @@ void
 process_file(const char *fn, struct buffer_type *buffer,
           const struct options_type *options, int *exit_code)
 {
-  fp = (fn ? fopen(fn, "r") : stdin);
+  static int cf_has_been_registered = 0;
 
-    /* If *exit_code is set to EXIT_FAILURE, the program continues
-       but will eventually exit with EXIT_FAILURE */
+  fp = (fn ? fopen(fn, "r") : stdin);
 
   if (fp)
   {
+    if (!cf_has_been_registered)
+    {
+      if (atexit(close_file))
+        fail_msg("Error: Couldn't register process_file callback\n");
+
+      cf_has_been_registered = 1;
+    }
+
     wrap(fp, buffer, options);  /* wrap.h */
     _close_file(fn, exit_code);
   }
@@ -36,15 +44,11 @@ process_file(const char *fn, struct buffer_type *buffer,
   {
     xerror("Error: Couldn't open file %s. Error code: %d\n", fn, errno);
     *exit_code = EXIT_FAILURE;
+
+    /* The program continues,
+       but will eventually exit with EXIT_FAILURE */
+
   }
-}
-
-static void close_file(void);
-
-int
-register_close_file(void)
-{
-  return atexit(close_file);
 }
 
 static void
