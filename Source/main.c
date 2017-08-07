@@ -24,8 +24,8 @@ main(int argc, char *argv[])
   struct buffer_type buffer
     = create_buffer(&options);           /* buffer.h */
 
-        /* buffer.h */            /* file.h */
-  if (register_free_buffer() || register_close_file())
+        /* file.h */
+  if (register_close_file())
     /* output.h */ fail_msg("Error: Couldn't register atexit function\n");
 
   if (options.filenames == NULL)
@@ -37,8 +37,6 @@ main(int argc, char *argv[])
     while (*fname)
       main_process_fname(*fname++, &buffer, &options, &exit_code);
   }
-
-  /* free_buffer() will be called at exit */
 
   return exit_code;
 }

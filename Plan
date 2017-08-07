@@ -7,6 +7,7 @@ Add info option
 Add option for error on buffer underrun
 Add license option
 Get comments on my code
+Move atexit registration deeper
 
 == Considering ==
 Change #defines to const ints

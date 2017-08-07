@@ -9,6 +9,8 @@
 #include "options.h"
 #include "output.h"
 
+static void free_buffer(void);
+
 static ch_type *text; /* declaration only - defined below */
 
 struct buffer_type
@@ -21,20 +23,15 @@ create_buffer(const struct options_type *options)
   if (text == NULL)
     fail_msg("Error: Couldn't acquire memory for the buffer\n");
 
+  if (atexit(free_buffer))
+    fail_msg("Error: Couldn't register atexit function\n");
+
   buffer.buffer_size = options->buffer_size;
   buffer.startpos = 0;
   buffer.endpos = 0;
   buffer.empty = 1;
 
   return buffer;
-}
-
-static void free_buffer(void);
-
-int
-register_free_buffer(void)
-{
-  return atexit(free_buffer);
 }
 
   /* This is only for our atexit()-registered fn */

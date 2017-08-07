@@ -33,13 +33,6 @@ struct buffer_type
 extern struct buffer_type
 create_buffer(const struct options_type *options);
 
-/*
-   Call this at the start of the program.
-   It registers a callback with atexit().
-*/
-
-extern int register_free_buffer(void);
-
 /* Use this in place of getchar() */
 extern int xgetchar(FILE *fp, struct buffer_type *buffer);
 
