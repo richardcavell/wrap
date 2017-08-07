@@ -7,8 +7,8 @@ Add info option
 Add option for error on buffer underrun
 Add license option
 Get comments on my code
-Move close_file atexit registration deeper
 fail_msg() should print Error and \n automatically
+Swap buffer and options in most function calls
 
 == Considering ==
 Change #defines to const ints
