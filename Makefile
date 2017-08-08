@@ -16,7 +16,7 @@ CPPFLAGS += -I Include
 
 .DEFAULT: all
 .PHONY: all
-all: wrap Readme.txt
+all: wrap
 
 # All object files are built using this command list
 %.o:
@@ -41,15 +41,6 @@ wrap: main.o buffer.o file.o options.o output.o wrap.o
 	@echo "Linking " $(@F)"..."
 	$(LINK.c) $^ $(OUTPUT_OPTION)
 	@echo "Executable" '"'$(@F)'"' "has been built."
-
-# This builds the Readme.txt file
-README_FILES = version.txt\
-               readme_header.txt newline.txt\
-               info.txt newline.txt\
-               readme_footer.txt
-
-Readme.txt: $(README_FILES)
-	cat $+ > $@
 
 # This removes intermediate files
 OBJECT_FILES = Object/main.o\

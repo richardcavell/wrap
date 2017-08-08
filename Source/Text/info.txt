@@ -1,9 +1,0 @@
-A word-wrapping program.
-
-This program handles all characters that are
-mentioned in "The C Programming Language" by Kernighan
-and Ritchie (2nd edition), including backspace,
-tab, vertical tab, carriage return, and unprintable
-characters.  It also handles extremely long lines.
-It will only work with "narrow" characters, and
-assumes that your output text is monospaced.
