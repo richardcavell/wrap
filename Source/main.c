@@ -19,7 +19,7 @@ main(int argc, char *argv[])
   int exit_code = EXIT_SUCCESS;
 
   const struct options_type options
-    = get_options(argc, argv);           /* options.h */
+    = get_options(argc, (const char **) argv);           /* options.h */
 
   struct buffer_type buffer
     = create_buffer(&options);           /* buffer.h */

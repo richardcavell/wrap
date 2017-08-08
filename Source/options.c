@@ -2,7 +2,6 @@
 /* Copyright (c) 2017 Richard John Foster Cavell */
 /* options.c */
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
@@ -26,177 +25,311 @@ static const struct options_type default_options =
 
 typedef void option_fn     (struct options_type *options);
 typedef void option_fn_ul  (struct options_type *options,
-                              unsigned long l);
-typedef void option_ht     (char *s);
+                            unsigned long l);
+typedef void option_ht     (void);
+typedef void option_ht_ul  (unsigned long int deflt);
 
 static option_fn
-                 always_hyphenate,
-                 line_break,
-                 print_help,
-                 print_version;
+                     always_hyphenate,
+                     line_break,
+                     help,
+                     version;
 
 static option_fn_ul
-                 ul_line_length,
-                 ul_stops,
-                 ul_buffer_size;
+                     ul_line_length,
+                     ul_stops,
+                     ul_buffer_size;
 
 static option_ht
-                 always_hyphenate_helptext,
-                 line_break_helptext,
-                 help_helptext,
-                 version_helptext,
+                     ht_always_hyphenate,
+                     ht_line_break,
+                     ht_help,
+                     ht_version;
 
-                 line_length_helptext,
-                 stops_helptext,
-                 buffer_size_helptext;
+static option_ht_ul
+                     ht_line_length,
+                     ht_stops,
+                     ht_buffer_size;
 
 struct parameter_type
 {
-  const char     *short_name, *long_name;
-  option_fn      *fn;
-  option_fn_ul   *fn_ul;
-  option_ht      *ht;
+  const char         *short_name;    const char *long_name;
+  option_fn          *fn;          option_ht    *ht;
+  option_fn_ul       *fn_ul;       option_ht_ul *ht_ul;
+  unsigned long int  min;       /* any macros will be in config.h */
+  unsigned long int  deflt;     /* same here */
+  unsigned long int  max;       /* same here */
 };
 
 static const struct parameter_type parameters[] =
 {
-  { "l",  "line-length",
-    NULL,
-    option_line_length,
-    option_line_length_helptext,
+  {
+                             "l",    "line-length",
+                            NULL,  NULL,
+                  ul_line_length,  ht_line_length,
+                      LENGTH_MIN,
+             DEFAULT_LINE_LENGTH,
+                      LENGTH_MAX
+   } ,
+
+  {
+                             "a",    "always-hyphenate",
+                always_hyphenate,  ht_always_hyphenate
   } ,
 
-  { "a",  "always-hyphenate",
-    option_always_hyphenate,
-    NULL,
-    option_always_hyphenate_helptext,
+  {
+                             "k",    "line-break",
+                      line_break,  ht_line_break
   } ,
 
-  { "k",  "line-break",
-    option_line_break,
-    NULL,
-    option_line_break_helptext,
+  {
+                             "s",    "stops",
+                            NULL,  NULL,
+                        ul_stops,  ht_stops,
+                       STOPS_MIN,
+                   DEFAULT_STOPS,
+                       STOPS_MAX
   } ,
 
-  { "s",  "stops",
-    NULL,
-    option_stops,
-    option_stops_helptext,
+  {
+                             "b",    "buffer-size",
+                            NULL,  NULL,
+                  ul_buffer_size,  ht_buffer_size,
+                      BUFFER_MIN,
+             DEFAULT_BUFFER_SIZE,
+                      BUFFER_MAX
   } ,
 
-  { "b",  "buffer-size",
-    NULL,
-    option_buffer_size,
-    option_buffer_size_helptext,
+  {
+                             "h",    "help",
+                            help,  ht_help
   } ,
 
-  { "h",  "help",
-    print_help,
-    NULL,
-    print_help_helptext,
+  {
+                             "v",    "version",
+                         version,  ht_version
   } ,
 
-  { "v",  "version",
-    print_version,
-    NULL,
-    print_version_helptext,
-  } ,
-
-  { NULL,  NULL,
-    NULL,
-    NULL,
-    NULL
+  {
+                            NULL,  NULL,
+                            NULL,  NULL,
+                            NULL,  NULL,
+                               0,
+                               0,
+                               0
   }
 };
 
 static void
-free_filenames(void);
+check_config(void)
+{
+  assert(BUFFER_MIN >= 5);
+  assert(DEFAULT_BUFFER_SIZE >= BUFFER_MIN);
+  assert(DEFAULT_BUFFER_SIZE <= BUFFER_MAX);
+  assert(BUFFER_MAX <= ULONG_MAX);
 
-const char *(*filenames)[];    /* declaration only - definition is below */
+  assert(LENGTH_MIN >= 5);
+  assert(DEFAULT_LINE_LENGTH >= LENGTH_MIN);
+  assert(DEFAULT_LINE_LENGTH <= LENGTH_MAX);
+  assert(LENGTH_MAX <= UINT_MAX);
+
+  assert(STOPS_MAX < UINT_MAX);
+}
+
+static int  starts_with(const char *s, const char *t);
+
+static void long_opt(const char *option_text, const char **pargv[],
+                     struct options_type *options);
+
+static void short_opt(const char *option_text, const char **pargv[],
+                      struct options_type *options);
+
+static void push_filename(const char *s, int argc);
+
+const char  *(*filenames)[];    /* declaration only - definition is below */
 
 struct options_type
-get_options(int argc, char *argv[])
+get_options(int argc, const char *argv[])
 {
   struct options_type options = default_options;
-  const char **filenames_insert_pt = NULL;
 
-  options.filenames = NULL;
+  const char lp[] = "--";
+  const char sp[] = "-";
 
-  if (argv[0])
-    options.invocation = argv[0];
+  check_config();
+
+  options.invocation = argv[0] ? argv[0] : DEFAULT_INVOCATION;
 
   if (argc >= 2)
+  {
     while (*++argv)
     {
-
-
-
-      if (is_filename(*argv) || is_stdin(*argv))
-      {
-        if (options.filenames == NULL)
-        {
-          filenames =
-            options.filenames =
-              malloc((size_t) argc * sizeof(const char *));
-
-          if (atexit(free_filenames))
-            fail_msg("Couldn't register options atexit callback");
-
-          filenames_insert_pt = *options.filenames;
-        }
-
-        *filenames_insert_pt++ = *argv;
-      }
+           if (starts_with(argv[0], lp))
+           {
+             if (filenames == NULL)
+               --argc;
+             long_opt(&argv[0][strlen(lp)], &argv, &options);
+           }
+      else if (is_stdin(argv[0]))
+           {
+             push_filename(argv[0], argc);
+           }
+      else if (starts_with(argv[0], sp))
+           {
+             if (filenames == NULL)
+               --argc;
+             short_opt(&argv[0][strlen(sp)], &argv, &options);
+           }
       else
-      {
-        find_match(*argv, &options);
-        if (options.filenames == 0)
-          --argc;
-      }
+           {
+                 push_filename(argv[0], argc);
+           }
     }
+  }
 
-  if (filenames_insert_pt)
-     *filenames_insert_pt = NULL;
+  options.filenames = filenames;
 
   return options;
 }
 
+static int
+starts_with(const char *s, const char *t)
+{
+  return strncmp(s, t, strlen(t)) == 0;
+}
+
+static void ul_param(struct options_type *options,
+                     const struct parameter_type *param,
+                     const char *ul_text, const char *error_s);
+
 static void
-find_match(const char *arg, struct options_type *options)
+long_opt(const char *option_text, const char **pargv[],
+         struct options_type *options)
+{
+  const struct parameter_type *param = parameters;
+  int matched = 0;
+
+  for (; !matched && param->long_name; ++param)
+  {
+    if (strncmp(param->long_name, option_text,
+                strlen(param->long_name)) == 0)
+    {
+      char *error_s;
+
+      matched = 1;
+      if (param->fn)
+          param->fn(options);
+      else
+      {
+        const char *ul = NULL;
+
+             if (option_text[strlen(param->long_name)] == '=')
+           ul = &option_text[strlen(param->long_name) + 1];
+        else if (option_text[strlen(param->long_name)] != '\0')
+           ul = &option_text[strlen(param->long_name)];
+        else
+        {
+             ++(*pargv);
+          ul = (*pargv)[0];
+        }
+
+        error_s = malloc(strlen(param->long_name) + 3);
+        strcpy(error_s, "--");
+        strcat(error_s, param->long_name);
+        ul_param(options, param, ul, error_s);
+        free(error_s);
+      }
+    }
+  }
+
+  if (!matched)
+    fail_msg("Error: Parameter not understood: --%s\n", option_text);
+}
+
+static void
+short_opt(const char *option_text, const char **pargv[],
+         struct options_type *options)
 {
   const struct parameter_type *param = parameters;
   int matched = 0;
 
   for (; !matched && param->short_name; ++param)
   {
-    matched =    attempt_match(param->short_name, arg, param->fn, options)
-              || attempt_match(param->long_name,  arg, param->fn, options);
+    if (strncmp(param->short_name, option_text,
+                strlen(param->short_name)) == 0)
+    {
+      char *error_s;
+
+      matched = 1;
+      if (param->fn)
+      {
+         param->fn(options);
+
+         if (option_text[strlen(param->short_name)])
+             short_opt(option_text + strlen(param->short_name),
+                     pargv, options);
+      }
+      else
+      {
+        const char *ul = NULL;
+
+             if (option_text[strlen(param->short_name)] == '=')
+           ul = &option_text[strlen(param->short_name) + 1];
+        else if (option_text[strlen(param->short_name)] != '\0')
+           ul = &option_text[strlen(param->short_name)];
+        else
+        {
+             ++(*pargv);
+          ul = (*pargv)[0];
+        }
+
+        error_s = malloc(strlen(param->long_name) + 2);
+        strcpy(error_s, "-");
+        strcat(error_s, param->short_name);
+        ul_param(options, param, ul, error_s);
+        free(error_s);
+      }
+    }
   }
 
   if (!matched)
-    fail_msg("Error: Parameter not understood: %s\n", arg);
+    fail_msg("Error: Option not understood : -%s\n", option_text);
 }
 
-static int
-attempt_match(const char *param_text, const char *actual_arg,
-              option_fn *fn, struct options_type *options)
+static void
+ul_param(struct options_type *options,
+         const struct parameter_type *param,
+         const char *ul_text, const char *error_s)
 {
-  int matched = 0;
+  int neg;
+  char *endptr = NULL;
+  unsigned long int ul;
 
-  if (strncmp(param_text, actual_arg, strlen(param_text)) == 0)
-  {
-    matched = 1;
-    fn(param_text, actual_arg + strlen(param_text), options);
-  }
+  if (ul_text == NULL || ul_text[0] == '\0')
+    fail_msg("Error: %s requires a value\n", error_s);
 
-  return matched;
-}
+  neg = (strtol(ul_text, NULL, 0) < 0);
 
-int
-is_filename(const char *arg)
-{
-  const char hyphen = '-';
-  return (arg && arg[0] != hyphen);
+  /* This won't catch all such errors, but it's still worth doing */
+  if (neg)
+    fail_msg("Error: Value given to %s must be positive\n",
+                                    error_s);
+
+  ul  =  strtoul(ul_text, &endptr, 0);
+
+  if (endptr && *endptr)
+    fail_msg("Error: Value given to %s must be a number\n",
+                                    error_s);
+
+  if (ul < param->min || ul > param->max)
+    fail_msg("Error: Value to %s must be between %u and %u\n",
+                              error_s,   param->min,    param->max);
+
+  if ((ul == 0) && errno)
+    fail_msg("Error: Cannot understand the number given to %s. Error %i\n",
+                                                      error_s,    errno);
+
+  param->fn_ul(options, ul);
 }
 
 int
@@ -208,231 +341,154 @@ is_stdin(const char *arg)
 
 const char *(*filenames)[] = NULL;
 
+static void
+free_filenames(void);
+
+static const char *(*allocate_filenames(int argc))[]
+{
+  filenames = calloc((size_t) argc, sizeof(const char *));
+
+  if (filenames == NULL)
+    fail_msg("Error: Couldn't allocate filenames array()\n");
+
+  if (atexit(free_filenames))
+    fail_msg("Error: Couldn't register options callback\n");
+
+  return filenames;
+}
+
+static void push_filename(const char *s, int argc)
+{
+  static const char **filenames_insert_pt = NULL;
+
+  if (filenames_insert_pt == NULL)
+      filenames_insert_pt = *(allocate_filenames(argc));
+
+  filenames_insert_pt++[0] = s;
+}
+
 static void free_filenames(void)
 {
   free(filenames);
   filenames = NULL;
 }
 
-static unsigned long int get_ul(const char *param_remainder,
-                                const char *param_match,
-                                unsigned long int min, unsigned long int max);
-
-static void check_param_finished(const char *param_match,
-                                 const char *param_remainder);
-
 static void
-option_line_length(const char *param_match,
-                   const char *param_remainder,
-                   struct options_type *options)
+always_hyphenate(struct options_type *options)
 {
-  assert(LENGTH_MIN > 0 && LENGTH_MAX <= UINT_MAX);
-  options->line_length = (unsigned int)
-                         get_ul(param_remainder, param_match,
-                         LENGTH_MIN, LENGTH_MAX); /* macros from config.h */
-}
-
-static void
-option_always_hyphenate(const char *param_match,
-                        const char *param_remainder,
-                        struct options_type *options)
-{
-  check_param_finished(param_match, param_remainder);
   options->always_hyphenate = 1;
 }
 
 static void
-option_line_break(const char *param_match,
-                  const char *param_remainder,
-                  struct options_type *options)
+line_break(struct options_type *options)
 {
-  check_param_finished(param_match, param_remainder);
   options->always_hyphenate = 0;
 }
 
 static void
-option_stops(const char *param_match, const char *param_remainder,
-             struct options_type *options)
+ul_line_length(struct options_type *options, unsigned long int ul)
 {
-  assert(STOPS_MIN > 0 && STOPS_MAX < UINT_MAX);
-  options->stops = (unsigned int)
-                   get_ul(param_remainder, param_match,
-                   STOPS_MIN, STOPS_MAX); /* macros from config.h */
+  options->line_length = (unsigned int) ul;
 }
 
 static void
-option_buffer_size(const char *param_match, const char *param_remainder,
-                   struct options_type *options)
+ul_stops(struct options_type *options, unsigned long int ul)
 {
-  assert(BUFFER_MIN > 0 && BUFFER_MAX <= ULONG_MAX);
-  options->buffer_size = get_ul(param_remainder, param_match,
-                                BUFFER_MIN, BUFFER_MAX); /* from config.h */
+  options->stops = (unsigned int) ul;
 }
 
 static void
-print_version_text(void)
+ul_buffer_size(struct options_type *options, unsigned long int ul)
 {
-  xprintf(VERSION_TEXT); /* VERSION_TEXT is in config.h */
+  options->buffer_size = (unsigned int) ul;
 }
 
 static void
-print_help(const char *param_match, const char *param_remainder,
-           struct options_type *options)
+print_version(void)
+{
+  xprintf(VERSION_TEXT);    /* VERSION_TEXT is in config.h */
+}
+
+static void
+version(struct options_type* options)
+{
+  (void) options;
+  print_version();
+  exit(EXIT_SUCCESS);
+}
+
+static void
+help(struct options_type *options)
 {
   const struct parameter_type *param = parameters;
-  char help_text[HELP_TEXT_SCRATCH_SIZE]; /* config.h */
 
-  check_param_finished(param_match, param_remainder);
-
-  print_version_text();
+  print_version();
   xprintf("Usage: %s [options] [filenames]\n", options->invocation);
   xprintf("Options:\n");
 
   for (;param->short_name; ++param)
   {
-    /* void. Returns a payload in help_text */
-    param->ht(help_text);
-
     /* Macros are in config.h */
-    xprintf(" %-*sor  %-*s%s\n",
+    xprintf("  -%-*s or  --%-*s",
               HELP_DIVIDER1, param->short_name,
-              HELP_DIVIDER2, param->long_name,
-              help_text
+              HELP_DIVIDER2, param->long_name
            );
+
+     if (param->ht)
+         param->ht();
+    else param->ht_ul(param->deflt);
+
+         xprintf("\n");
   }
 
-  xprintf("If no filenames are given, standard input will be used.\n");
+  xprintf("If no filenames are given, will read from standard input.\n");
   xprintf("If filenames are given, use a single - to read from standard input.\n");
 
   exit(EXIT_SUCCESS);
 }
 
 static void
-print_version(const char *param_match, const char *param_remainder,
-              struct options_type *options)
+ht_line_length(unsigned long int deflt)
 {
-  /* Suppress compiler warnings about unused parameter */
-  (void) options;
-
-  check_param_finished(param_match, param_remainder);
-  print_version_text();
-  exit(EXIT_SUCCESS);
-}
-
-static unsigned long int
-get_ul(const char *param_remainder, const char *param_match,
-       unsigned long int min, unsigned long int max)
-{
-  char *endptr = NULL;
-  int neg = (strtol(param_remainder, NULL, 0) < 0);
-  unsigned long int l = strtoul(param_remainder, &endptr, 0);
-
-  /* This won't catch all such errors, but it's still worth doing */
-  if (neg)
-    fail_msg("Error: Value given to %s must be positive\n",
-                                    param_match);
-
-  if (endptr && *endptr)
-    fail_msg("Error: Value given to %s must be a number\n",
-                                    param_match);
-
-  if (l < min || l > max)
-    fail_msg("Error: Value to %s must be between %u and %u\n",
-                              param_match,       min,   max);
-
-  if ((l == 0) && errno)
-    fail_msg("Error: Cannot understand the number given to %s. Error %i\n",
-                                                  param_match,       errno);
-
-  return l;
+  xprintf("Line length (default %u)", deflt);
 }
 
 static void
-check_param_finished(const char *param_match, const char *param_remainder)
+ht_always_hyphenate(void)
 {
-  if (*param_remainder)
-    fail_msg(
-      "Error: Parameter %s should not be followed by any other text\n",
-                        param_match);
-}
-
-static void
-option_line_length_helptext(char *s)
-{
-  if (
-       sprintf(s,
-                "Line length (default %u)",
-                DEFAULT_LINE_LENGTH
-               )
-        < 0)
-
-    fail_msg("sprintf() failure in option_line_length_helptext()");
-}
-
-static void
-option_always_hyphenate_helptext(char *s)
-{
-  if (
-       sprintf(s,
-                "Fill up each line %s",
+  xprintf("Fill up each line %s",
                 (DEFAULT_ALWAYS_HYPHENATE) ?
-                  "(default)" : "(switches off -k)"
-               )
-        < 0)
-
-    fail_msg("sprintf() failure in option_always_hyphenate_helptext()");
+                  "(default)" : "(switches off -k)");
 }
 
 static void
-option_line_break_helptext(char *s)
+ht_line_break(void)
 {
-  if (
-       sprintf(s,
-                "Line-break after whole words %s",
-                  DEFAULT_ALWAYS_HYPHENATE == 0 ?
-                  "(default)" : "(switches off -a)"
-               )
-        < 0)
-
-    fail_msg("sprintf() failure in option_line_break_helptext()");
+  xprintf("Line-break after whole words %s",
+                DEFAULT_ALWAYS_HYPHENATE == 0 ?
+                 "(default)" : "(switches off -a)");
 }
 
 static void
-option_stops_helptext(char *s)
+ht_stops(unsigned long int deflt)
 {
-  if (
-       sprintf(s,
-                "Tab stop distance (default %u)",
-                DEFAULT_STOPS
-               )
-        < 0)
-
-    fail_msg("sprintf() failure in option_stops_helptext()");
+  xprintf("Tab stop distance (default %u)", deflt);
 }
 
 static void
-option_buffer_size_helptext(char *s)
+ht_buffer_size(unsigned long int deflt)
 {
-  if (
-       sprintf(s,
-                "Buffer size (default %lu)",
-                (unsigned long) DEFAULT_BUFFER_SIZE
-               )
-        < 0)
-
-    fail_msg("sprintf() failure in option_buffer_size_helptext()");
+  xprintf("Buffer size (default %lu)", deflt);
 }
 
 static void
-print_help_helptext(char *s)
+ht_help(void)
 {
-  if (sprintf(s, "Prints out this help text") < 0)
-    fail_msg("sprintf() failure in option_help_helptext()");
+  xprintf("Prints out this help text");
 }
 
 static void
-print_version_helptext(char *s)
+ht_version(void)
 {
-  if (sprintf(s, "Version number") < 0)
-    fail_msg("sprintf() failure in option_version_helptext()");
+  xprintf("Version number");
 }

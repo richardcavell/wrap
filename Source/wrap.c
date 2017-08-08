@@ -9,19 +9,35 @@
 
 #include "buffer.h"
 #include "options.h"
+#include "output.h"
 
 void
 wrap(FILE *fp, struct buffer_type *buffer,
      const struct options_type *options)
 {
-  int c;
+  const char **fname = NULL;
 
-  (void) fp;
-  (void) buffer;
-  (void) options;
+  xprintf("Filenames :         : (%p)\n", options->filenames);
 
-  while ((c = xgetchar(fp, buffer)) != EOF)
-    putchar(c);
+  if (options->filenames)
+    fname = *(options->filenames);
+
+  while(fname && *fname)
+    xprintf("  %s\n", fname++[0]);
+
+  xprintf("File pointer is     : ");
+           if (fp == stdin) xprintf("stdin\n");
+           else             xprintf("%p\n", fp);
+  xprintf("Buffer text is      : %10s\n", buffer->text);
+  xprintf("Invocation          : %s\n",   options->invocation);
+  xprintf("Buffer size         : %lu\n", options->buffer_size);
+  xprintf("Line length         : %lu\n", options->line_length);
+  xprintf("Stops               : %lu\n", options->stops);
+  xprintf("Always hyphenate    : %s\n",  (options->always_hyphenate) ?
+                                         "Yes" : "No" );
+
+/*  while ((c = xgetchar(fp, buffer)) != EOF)
+    putchar(c); */
 
 /*
   int c;

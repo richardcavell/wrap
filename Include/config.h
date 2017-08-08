@@ -21,7 +21,7 @@
 #define DEFAULT_STOPS 8
 #define STOPS_MAX 100
 
-#define HELP_DIVIDER1 5
+#define HELP_DIVIDER1 2
 #define HELP_DIVIDER2 22
 
 /* We have to avoid buffer overruns */

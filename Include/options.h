@@ -26,6 +26,6 @@ extern int is_stdin(const char *arg);
 */
 
 extern struct options_type
-get_options(int argc, char *argv[]);
+get_options(int argc, const char *argv[]);
 
 #endif

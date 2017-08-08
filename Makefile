@@ -9,8 +9,9 @@ vpath %.txt . Source/Text
 
 # Compilation variables
 CC += -std=c89
-# -Weverything gives a useless warning about padding in structs
-CFLAGS += -Wall -Werror -Wextra -Wconversion -Wpedantic
+CFLAGS += -Wall -Werror -Wextra -Wconversion -Wpedantic -fmax-errors=3
+CFLAGS += -Wno-missing-field-initializers
+
 CPPFLAGS += -I Include
 
 .DEFAULT: all
