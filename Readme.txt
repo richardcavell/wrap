@@ -16,6 +16,10 @@ work with any operating system (although you may
 have to customize the build process for your OS).
 It is licensed to you under the MIT License.
 
+If there is any intellectual property right
+added to the input text by the generation of
+its output, then that is licensed to you freely.
+
 To build with GNU Make, type "make".  To run, run
 the "wrap" program in the top-level directory.  To
 see the options, run "wrap --help".
