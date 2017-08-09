@@ -19,7 +19,6 @@ Move stdin filename check to file.c
 Create more assertions in options.c
 Move check_config to config.c
 Call check_config from main()
-Add GPL license
 Reorder the variable declarations in main()
 
 == Considering ==
