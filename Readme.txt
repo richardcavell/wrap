@@ -16,9 +16,12 @@ work with any operating system (although you may
 have to customize the build process for your OS).
 It is licensed to you under the MIT License.
 
-If there is any intellectual property right
-added to the input text by the generation of
-its output, then that is licensed to you freely.
+I give you permission to use the output of this
+program for any worthwhile purpose. You need to
+consider whether the input is encumbered by
+intellectual property restrictions, and if it is,
+that the output is probably also similarly
+encumbered.
 
 To build with GNU Make, type "make".  To run, run
 the "wrap" program in the top-level directory.  To
