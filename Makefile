@@ -5,18 +5,16 @@
 vpath %.c Source
 vpath %.h Include
 vpath %.o Object
-vpath %.txt . Source/Text
 
 # Compilation variables
-CC += -std=c89
-CFLAGS += -Wall -Werror -Wextra -Wconversion -Wpedantic -fmax-errors=3
-CFLAGS += -Wno-missing-field-initializers
-
+CC       += -std=c89
+CFLAGS   += -Wall -Werror -Wextra -Wconversion -Wpedantic -fmax-errors=3
+CFLAGS   += -Wno-missing-field-initializers
 CPPFLAGS += -I Include
 
-.DEFAULT: all
-.PHONY: all
-all: wrap
+.DEFAULT: wrap
+.PHONY:   all
+all:      wrap
 
 # All object files are built using this command list
 %.o:

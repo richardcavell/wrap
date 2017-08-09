@@ -16,13 +16,13 @@ main_process_fname(const char *fname, struct buffer_type *buffer,
 int
 main(int argc, char *argv[])
 {
-  int exit_code = EXIT_SUCCESS;
-
   const struct options_type options
     = get_options(argc, (const char **) argv);           /* options.h */
 
   struct buffer_type buffer
     = create_buffer(&options);           /* buffer.h */
+
+  int exit_code = EXIT_SUCCESS;
 
   if (options.filenames == NULL)
     main_process_fname(NULL, &buffer, &options, &exit_code);
